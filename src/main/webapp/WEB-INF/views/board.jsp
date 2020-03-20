@@ -72,7 +72,7 @@
 		
 	
 	<div style="width:1700px;height:auto; ">
-		<div style="width:190px;height:600px;float:left; margin-right:10px;margin-top:100px;">
+		<div style="width:190px;float:left; margin-right:10px;margin-top:100px;">
 			
 		</div>
 		<div  style="width:1500px;height:auto;float:left;" >
@@ -82,13 +82,13 @@
 			</div>
 			
 			<div id="contents"  role="alert" style="width:1500px;height:auto;float:top;background-color:rgb(247,247,247);border-color:rgb(255,239,239);">
-				<div style="padding:7px;"><%=board.getBoard_contents() %></div>
+				<div style="padding:20px;"><%=board.getBoard_contents() %></div>
 				  
 			</div>
 		</div>
 		
 	</div>
-	<div style="width:1100px;height:auto;float:left;margin-top:10px;padding-bottom:40px;background-color:rgb(201,235,255);border-radius:0.5em;border:2px solid #64a2ff;">
+	<div style="width:1100px;height:auto;float:left;margin-top:10px;margin-left:200px;padding-bottom:40px;background-color:rgb(201,235,255);border-radius:0.5em;border:2px solid #64a2ff;">
 		<div style="width:1000px;height:80px;margin-left:45px;margin-top:10px;">
 		 
 			<textarea id="commentInput" rows="3" style="width:834px;height:80px;float:left;"></textarea>

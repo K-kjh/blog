@@ -4,7 +4,7 @@
 "java.util.List,
  blog.root.model.BoardDTO,
  blog.root.model.SubjectVO" %>
-
+ <%request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +15,13 @@
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	
 	<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	  src="https://code.jquery.com/jquery-3.4.1.min.js"
+	  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	  crossorigin="anonymous"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 	<style>
 	
@@ -70,14 +70,17 @@
 		<!-- 내용  -->
 		
 		<div id="board_contents"class="border border-primary" style="width:1500px;height:650px;float:top;
-			overflow-y: auto;" contenteditable="true"  >
+			overflow-y: auto; padding-left:40px;" contenteditable="true"  >
+			
 			
 		</div>
 		
 		<!-- 버튼 칸 -->
 		<div class="border border-primary" style="width:1500px;height:55px;float:top;">
-			<button style="margin-left:800px;" type="image" class="image_put" >이미지 삽입</button>
-			<input id="image_file" type="file" name=image_input">
+		
+			<button style="margin-left:800px;" class="image_put" >이미지 삽입</button>
+			<input id="image_file" name="uploadFile" type="file" >
+			
 			<!-- 분류 -->
 			<div class="btn-group" role="group">
 			
@@ -149,26 +152,52 @@
 		}); //ajax -end
   		
 	});
+
+	var d = new Date();
+	var dtime;
+	
+  	$('#image_file').click(function(){
+  		dtime=d.getTime();
+  	});
+  	
+ 
   	
 	$(".image_put").click(function(e){
 		
+		console.log("date : "+d+ " ::::: -+-+-+"+ d.getTime());
+		
 		image_src=$('#image_file').val();
+		console.log("image: "+image_src);
+		var test_image=image_src;
 		image_src=$('#image_file').val().split("\\");
-		console.log("3: "+image_src[image_src.length-1]);
+		console.log("::: "+image_src[image_src.length-1]);
 		image_src=image_src[image_src.length-1];
-			
-		 $("div#board_contents").append("<img src=/resources/image/"+image_src+" style='width:850px;height:auto;'>"); 
+		
+		
+		 var formData = new FormData();
+		 var inputFile = $("input[name='uploadFile']");
+		 var files = inputFile[0].files;
 		 
-		 console.log("text : "+$('#board_contents').text());	
-		 var i=0;
-		 console.log("html() : "+$('#board_contents').html());
-		 var contents = $('#board_contents').html();
-		 contents=contents.replace(/(?:\r\n|\r|\n)/g,'<br/>');
-		 console.log("html 변환 : "+contents);
-		 $("#contents").find('img').each(function(){
-			image_src_file[i]=$(this).attr('src');
-			console.log( "img : "+$(this).attr('src'));
+		 console.log("files : "+files);
+		 
+		 for(var i=0;i<files.length;i++){
+			 formData.append("uploadFile",files[i]);
+		 }
+		 formData.append("Time",""+dtime);
+		 
+		 $.ajax({
+			url:'/uploads',
+			processData: false,
+			contentType: false,
+			data: formData,
+			type: 'POST',
+			success: function(result){
+				 $("div#board_contents").append("<img src=/img/"+dtime+"_"+(image_src)+" style='width:850px;height:auto;'>"); 
+			}
 		 });
+
+		 
+		 
 	}); 
 	
 	

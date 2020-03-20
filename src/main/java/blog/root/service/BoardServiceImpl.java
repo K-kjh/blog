@@ -36,7 +36,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	public int paging_max() {
-		return boardMapper.paging_max();
+		int pagingmax;
+		
+		try {
+			pagingmax= boardMapper.paging_max();
+			return pagingmax;
+		}catch(Exception e) {
+			return 0;
+		}
 	}
 
 	@Override

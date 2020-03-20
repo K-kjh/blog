@@ -15,6 +15,16 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	
+	<!--
+		이 아래 location 은 현재 webapp/resoucres/image 파일 경로를 가져와서 붙이시기 바람니다. 
+		server.xml 파일내 알맞게 수정후 추가시켜주세요.
+		<Host>
+	   		<Context path="/img" reloadable="true" docBase="/home/kang/app/WorkJava/KangBlog/src/main/webapp/resources/image" />
+      <Host/> 
+      
+	  -->
+	<resources mapping="/img/**" location="file:///home/kang/app/WorkJava/KangBlog/src/main/webapp/resources/image" />
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -22,6 +32,10 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="blog.root.controll" />
+	<context:component-scan base-package ="org.zerock.controller" />
 	
+	<beans:bean id="multipartResolver" 
+	class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</beans:bean>
 	
 </beans:beans>

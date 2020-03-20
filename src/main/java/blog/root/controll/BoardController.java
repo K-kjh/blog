@@ -66,7 +66,13 @@ public class BoardController {
 	@ResponseBody
 	public int boardCreate(String board_title,String board_contents,int board_type) {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
+		String str;
 		
+		str=board_contents.replace("<div>", "<br/>");
+		str=str.replace("<br>", "");
+		str=str.replace("</div>", "");
+		
+		board_contents=str;
 		int a =boardService.Board_create(board_title, board_type, board_contents);
 		return a;
 		

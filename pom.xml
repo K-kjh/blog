@@ -185,6 +185,17 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.9.9.3</version>
 		</dependency>
+		
+		<!-- 파일 업로드  -->
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+				
+		
 	</dependencies>
     <build>
         <plugins>
@@ -222,6 +233,26 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-javadoc-plugin</artifactId>
+		        <configuration>
+		                <charset>UTF-8</charset>
+		                <docencoding>UTF-8</docencoding>
+		                <encoding>UTF-8</encoding>
+		                <quiet>true</quiet>
+		        </configuration>
+				</plugin>    
+				<plugin>
+				  <groupId>org.apache.maven.plugins</groupId>
+				  <artifactId>maven-pmd-plugin</artifactId>
+				  <version>2.4</version>
+				  <configuration>
+				    <sourceEncoding>utf-8</sourceEncoding>
+				    <targetJdk>1.5</targetJdk>
+				    <minimumTokens>10</minimumTokens>
+				  </configuration>
+		</plugin>
         </plugins>
     </build>
 </project>
