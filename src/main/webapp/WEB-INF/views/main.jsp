@@ -111,7 +111,9 @@
 
 </div>
 <div style="margin-top:150px;height:135px;width:100%;background-color: #d4d4d4b5;">
-<div> © 2020~202x <p class="font-weight-bold"> kgh2252@naver.com</p></div>
+<div> <p class="font-weight-bold">© 2020~202x <br/> kgh2252@naver.com </p>
+
+</div>
 
 </div>
 </body>

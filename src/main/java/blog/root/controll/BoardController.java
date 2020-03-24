@@ -45,11 +45,22 @@ public class BoardController {
 		
 	}
 	
-	@PostMapping("/board/page/{page}")
-	@ResponseBody
-	public void boardpage() {
+	@GetMapping("/board/{board_number}/update") 
+	public String board_update(@PathVariable int board_number,Model model) throws Exception {
 		
+		List<SubjectVO> subList = subjectService.AllSubject();
+		BoardDTO boardDTO = boardService.selectBoardList(board_number);
+		
+		model.addAttribute("subList", subList );
+		
+		model.addAttribute("update_board_number", board_number);
+		model.addAttribute("update_board_title",boardDTO.getBoard_title());
+		model.addAttribute("update_board_contents",boardDTO.getBoard_contents());
+		
+
+		return "/addboard";
 	}
+	
 	
 	
 	@GetMapping("/board/addboard")
@@ -68,16 +79,54 @@ public class BoardController {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
 		String str;
 		
-		str=board_contents.replace("<div>", "<br/>");
-		str=str.replace("<br>", "");
-		str=str.replace("</div>", "");
-		
-		board_contents=str;
 		int a =boardService.Board_create(board_title, board_type, board_contents);
 		return a;
 		
 	}
 	
+	@PostMapping(value="/board/{board_number}/delete")
+	@ResponseBody
+	public int boardDelete(@PathVariable int board_number,HttpSession session) {
+		if(session.getAttribute("root") != null) {
+			try {
+				return boardService.boardDelete(board_number);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return 0;
+	}
+	
+	@PostMapping(value="/board/{board_number}/update")
+	@ResponseBody
+	public int boardUpdate(@PathVariable int board_number, String board_title,String board_contents,int board_type) {
+		String str;
+		log.info("title"+board_title);
+		log.info("contents"+board_contents);
+		
+		str=board_contents.replace("<div>", "<br/>");
+		str=str.replace("<br>", "");
+		str=str.replace("</div>", "");
+
+		
+		log.info("contents"+board_contents);
+		board_contents=str;
+		
+		try {
+			
+			return boardService.
+					boardUpdate(board_contents, board_title, board_type, board_number);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return 0;
+		
+	}
 	
 	
 	@PostMapping(value="/board/count")
@@ -104,11 +153,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/{board_number}")
-	public String board_number(@PathVariable int board_number,Model model , HttpServletResponse res,HttpServletRequest req ) throws Exception {
+	public String board_number(@PathVariable int board_number,Model model) throws Exception {
 		
 		BoardDTO boardDTO = boardService.selectBoardList(board_number);
 		List<CommentDTO> commentDTO = commentService.selectCommentList(board_number);
 		
+		model.addAttribute("board_number", board_number);
 		model.addAttribute("boardDTO",boardDTO);
 		model.addAttribute("commentDTO",commentDTO);
 		

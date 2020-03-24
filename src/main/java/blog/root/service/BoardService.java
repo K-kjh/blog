@@ -13,4 +13,7 @@ public interface BoardService {
 	public int BoardCount(int board_number) throws Exception;
 	public BoardDTO selectBoardList(int board_number) throws Exception;
 	public List<BoardVO> mainBoardList(int paging_number) throws Exception;
+	public int boardUpdate(String board_contents,String board_title,int board_type,int board_number) throws Exception;
+	public int boardDelete(int board_number)throws Exception;
+	
 }

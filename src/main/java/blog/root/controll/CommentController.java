@@ -24,18 +24,45 @@ public class CommentController {
 		
 		if(session.getAttribute("root") != null) {
 			log.info("로그있음");
-			
+
+			commentInput = solve(commentInput);
 			commentmapper.insertComment(board_number, commentInput, 1);
 			
 			
 		}else {
 			log.info("로그없음");
 
+			commentInput = solve(commentInput);
 			commentmapper.insertComment(board_number, commentInput, 0);
 			
 		}
 			
-		log.info(" :: "+commentInput);
 		return 1;
+	}
+
+	private static String solve(String str) {
+		log.info("text len test ------");
+		
+		int count=0;
+		String comment="";
+		for(int i=0;i<str.length();i++) {
+			
+			if(str.charAt(i) == '\n') {
+				count=0;
+			}
+			
+			if(count>=95) {
+				comment+='\n';
+				log.info("-");
+				count=0;
+			}else {
+				comment+=str.charAt(i);
+			}
+			count++;
+		}
+		
+		log.info(":"+comment);
+		return comment;
+		
 	}
 }

@@ -56,23 +56,36 @@
 	<div  class="alert alert-success" role="alert"  
 		style="width:190px;height:600px;float:left; 
 		margin-right:10px;margin-top:100px;">
-				
+			HTML 태그를 사용할수 있습니다<br/>[s] 태그 :<s>텍스트</s><br/>[ins] 태그:<ins>밑줄</ins><br/>[strong] 태그 : <strong>텍스트</strong><br/>
+			[kbd] 태그 :<kbd>text</kbd><br/>	
+			<br/>자세한건:<a href="https://getbootstrap.com/docs/4.4/content/typography/">1링크</a>,<a href="http://bootstrapk.com/css/#type">2링크</a>
 	</div>
 	
 	<!--  메인 -  -->
 	<div  style="width:1500px;height:800px;float:left; " >
 	
 		<p class="text-muted" style="margin-left:80px;">40자 까지 입력하시오.</p>
-		<div style="width:100px;heigth:50px;float:left;"><h3 ><p class="text-muted" style="margin-top:5px;" >제목 : </p></h3></div>
+		<div style="width:100px;heigth:50px;float:left;">
+			<h3 >
+				<p class="text-muted" style="margin-top:5px;" >제목 :
+				</p>
+			
+			</h3>
+		</div>
 		<div id="board_title" class="alert alert-success" role="alert"
-		 style="margin-left:85px;width:1400px;height:50px;float:top;" contenteditable="true" ></div>
+		 style="margin-left:85px;width:1400px;height:50px;float:top;overflow-y:auto;" contenteditable="true" >
+		 	<%if(request.getAttribute("update_board_title") != null){%>	
+					<%=request.getAttribute("update_board_title")%>
+			<%}%>
+		</div>
 		
 		<!-- 내용  -->
 		
 		<div id="board_contents"class="border border-primary" style="width:1500px;height:650px;float:top;
 			overflow-y: auto; padding-left:40px;" contenteditable="true"  >
-			
-			
+			<%if(request.getAttribute("update_board_contents") != null){%>	
+					<%=request.getAttribute("update_board_contents")%>
+			<%}%> 
 		</div>
 		
 		<!-- 버튼 칸 -->
@@ -105,7 +118,11 @@
 				<%}/* for-end */ %>
 			</select>
 			</div>
-			<button id="board_create_button" class="btn btn-secondary" type="button" style="margin-top:5px;margin-left:10px;width:100px;">저장</button>
+			<%if(request.getAttribute("update_board_title")!= null && request.getAttribute("update_board_contents")!=null){ %>
+				<button id="board_update_button" class="btn btn-secondary" type="button" style="margin-top:5px;margin-left:10px;width:100px;">저장</button>
+			<%}else{ %>
+				<button id="board_create_button" class="btn btn-secondary" type="button" style="margin-top:5px;margin-left:10px;width:100px;">저장</button>
+			<%} %>
 		</div>
 	 <div class="text-muted"  style="margin-left:5px; width:500px;">최대 5000bit, 영어1bit 한글1bit 숫자 1bit,그림은 하나당 100bit</div>
 			
@@ -118,7 +135,38 @@
  	var image_src;
 	var image_src_file = [];
   	var subtype=1;
-	
+  	
+	var board_number="<%=request.getAttribute("update_board_number") %>";
+  	var board_title="<%=request.getAttribute("update_board_title")%> " ;
+  	
+  	$('#board_update_button').click(function(){
+  		console.log(" title : "+$('#board_title').html());
+  		console.log(" subtype : "+subtype);
+  		
+		var contents = $('#board_contents').html();
+		contents=contents.replace(/(?:\r\n|\r|\n)/g,'<br/>');
+		console.log("html 변환 : "+contents);
+
+	   	 var query = { 
+	                board_title : board_title , board_contents : contents , board_type : subtype
+	    };
+	   
+	   	$.ajax({
+				url :"/board/"+board_number+"/update" ,
+				type: "post",
+				data : query,
+				   success : function(data){
+				          //0 실패 1 성공
+				              if(data == 1){
+				            	  	alert("게시글 변경 성공");
+									location.href ="/";
+				              }else{
+				            	  	alert("게시글 변경 실패");
+				              }
+				         }
+		}); //ajax -end
+  	});
+  	
   	$('#subtype').click(function(){
   		subtype=$(this).val();
   	});
@@ -192,7 +240,8 @@
 			data: formData,
 			type: 'POST',
 			success: function(result){
-				 $("div#board_contents").append("<img src=/img/"+dtime+"_"+(image_src)+" style='width:850px;height:auto;'>"); 
+				
+				 $("div#board_contents").append("<img src=/img/"+result+" style='width:850px;height:auto;'>"); 
 			}
 		 });
 

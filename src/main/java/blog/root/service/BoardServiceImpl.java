@@ -17,17 +17,14 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper boardMapper;
 	
 	public BoardDTO selectBoardList(int board_number) throws Exception {
-		
 		return boardMapper.selectBoardList(board_number);
 	}
 
 	public List<BoardVO> mainBoardList(int paging_number) throws Exception {
-		
 		return boardMapper.mainBoardList(paging_number);
 	}
 
 	public int BoardCount(int board_number) throws Exception {
-	
 		return boardMapper.BoardCount(board_number);
 	}
 
@@ -48,14 +45,23 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardVO> subtypeBoardList(int subject_type, int paging_number) throws Exception {
-		
 		return boardMapper.subtypeBoardList(subject_type, paging_number);
 	}
 
 	@Override
 	public int paging_type_max(int board_type)  throws Exception{
-		
 		return boardMapper.paging_type_max(board_type);
+	}
+
+	@Override
+	public int boardUpdate(String board_contents, String board_title, int board_type,int board_number) throws Exception {
+		return boardMapper.boardUpdate(board_contents, board_title, board_type,board_number);
+	}
+
+	@Override
+	public int boardDelete(int board_number) throws Exception {
+		
+		return boardMapper.boardDelete(board_number);
 	}
 
 	

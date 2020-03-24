@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -50,7 +52,7 @@ public class ImageController {
 	
 	@PostMapping(value="/uploads")
 	@ResponseBody
-	public void uploads(MultipartFile[] uploadFile,String Time) {
+	public String uploads(MultipartFile[] uploadFile,String Time) {
 		log.info("time : "+Time);
 		log.info(" update ajax post ...... ");
 		
@@ -61,19 +63,24 @@ public class ImageController {
 			log.info("upload file name "+ multipartFile.getOriginalFilename());
 			log.info("Upload File Size: "+ multipartFile.getSize());
 			
-			String uploadFileName = Time+"_"+multipartFile.getOriginalFilename();
+			String uploadFileName = multipartFile.getOriginalFilename();
 			
 			String currDir = ImageController.class.getResource(".").getPath();
 			String path=projectImageStr(currDir);
+		
+			UUID uuid=UUID.randomUUID();
+			uploadFileName=Time+"_"+uuid.toString()+imgType(uploadFileName);
+			
 			
 			String uploadImageFile = path + uploadFileName;
-
+			
 			log.info("origName : "+multipartFile);
 			log.info("currDir : "+ currDir);
 			log.info("path : "+path);
 			log.info("uploadImage FIle Path :::"+uploadImageFile);
 			
 			try {
+				
 				multipartFile.transferTo(new File(uploadImageFile));
 			
 			}catch(Exception e) {
@@ -82,8 +89,25 @@ public class ImageController {
 				log.error(e.getMessage());
 				
 			}
+			return uploadFileName;
 		}
+		return null;
+	
+		
 	}
+	
+	private static String imgType(String str) {
+		String type="";
+		boolean ty=false;
+		for(int i=0;i<str.length();i++) {
+			if(str.charAt(i)=='.' || ty==true) {
+				type+=str.charAt(i);
+				ty=true;
+			}
+		}
+		return ty == true ? type : null;
+	}
+	
 	
 	
 	private static boolean stris(int j,String str,String str2) {

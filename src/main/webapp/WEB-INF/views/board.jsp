@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"  %>
-<%@ page import="java.util.List,blog.root.model.BoardDTO, blog.root.model.CommentDTO,java.sql.Timestamp" %>
+<%@ page import="java.util.List,blog.root.model.BoardDTO, blog.root.model.CommentDTO,java.sql.Timestamp,javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,18 +76,36 @@
 			
 		</div>
 		<div  style="width:1500px;height:auto;float:left;" >
-		
-			<div class="alert alert-light" role="alert" style="width:1500px;height:50px;float:top;">
-				<h3 >제목 : <%=board.getBoard_title() %></h3>
+		<!-- 제목  -->
+			<div class="alert alert-light" role="alert" style="width:1500px;height:50px;float:top;" >
+				<h3 style="float:left">제목 : </h3> <h3 ><div id="title"><%=board.getBoard_title() %></div> </h3>
 			</div>
-			
-			<div id="contents"  role="alert" style="width:1500px;height:auto;float:top;background-color:rgb(247,247,247);border-color:rgb(255,239,239);">
-				<div style="padding:20px;"><%=board.getBoard_contents() %></div>
+	
+		<!-- 내용 -->
+			<div class="border" id="contents"  role="alert" style="width:1500px;height:auto;float:top;background-color:rgb(247,247,247);border-color:rgb(255,239,239);">
+				<div style="padding:20px;" id="board_contents"><%=board.getBoard_contents() %></div>
 				  
 			</div>
+				<!-- 삭제 수정 버튼 -->
+			<%try{ %>
+				<%HttpSession ses =request.getSession(); %> 
+				<% if(request.getSession().getAttribute("root") != null){ %>
+					<div id="DeUpButton" value="<%=board.getBoard_number()%>"class="border" style="width:1500px;height:50px;padding-top:5px;padding-bottom:5px;background-color:rgb(247,247,247);">
+						<div style="float:left;">
+								<button id="update" type="button" class="btn btn-info" style="margin-left:1350px;">수정</button>
+						</div style="float:left;">
+						<div>
+							<button id="delete" type="button" class="btn btn-success" style="margin-left:10px;">삭제</button>
+						</div>
+					</div>
+				<% }else{%>
+				<%}%>
+			<%}catch(Exception e){} %>
 		</div>
 		
 	</div>
+	
+	<!-- 댓글 컬럼 -->
 	<div style="width:1100px;height:auto;float:left;margin-top:10px;margin-left:200px;padding-bottom:40px;background-color:rgb(201,235,255);border-radius:0.5em;border:2px solid #64a2ff;">
 		<div style="width:1000px;height:80px;margin-left:45px;margin-top:10px;">
 		 
@@ -99,14 +117,14 @@
 		
 		<%for(CommentDTO comment : commentDTOs){ %>
 			<%if(comment.getWriter() == 1){ // 관리자 댓글  %>
-				<!-- 관리자 댓글 둠  -->
+				<!-- 관리자 댓글  -->
 				<div style="width:1100px;float:left;"> 
 					<pre class="triangle-isosceles right" style="display:table;float:right;	margin-right:80px;margin-left:171px;"
 					><%=comment.getContents() %></pre>
 				</div>
 				<div style="float:right;margin-right:80px;height:0px;"><small><%=comment.getComment_date()%></small></div>
 			<%}else{ // 방문자 댓글 %>
-				<!-- 방문자 댓글 둠   -->
+				<!-- 방문자 댓글  -->
 				<div style="width:1100px;"> 
 					<pre class="triangle-isosceles left" style="display:inline-grid;margin-right:80px;"
 					><%=comment.getContents() %></pre>
@@ -127,7 +145,31 @@
 
 </body>
 <script type="text/javascript">
+	var title= $('#title').html();
+	var board_number="<%=request.getAttribute("board_number")%>";
 	
+	$('#update').click(function(){
+		console.log(" title : "+title+", "+$('#title').val() +" ::: "+$('#title').html() +" number : "+board_number);
+		
+		location.href="/board/"+board_number+"/update";
+	});
+
+	$('#delete').click(function(){
+		 
+		 $.ajax({
+			url :"/board/"+board_number+"/delete",
+			type: "POST",
+			success : function(data){
+				if(data  == 1){
+					console.log(" 게시물 삭제 성공 ");
+					location.href="/";
+				}else{
+					console.log(" 게시물 삭제 실패");
+				}
+			}
+		}); //ajax -end
+		
+	});
 	
 	$('#commentInputButton').click(function(){
 		console.log(" 값은 s? :"+$('#commentInput').val());
