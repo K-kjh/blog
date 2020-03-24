@@ -28,4 +28,28 @@ public class CommentServiceImpl implements CommentService {
 		return mapper.insertComment(comment_number, contents, writer);
 	}
 
+	public String solve(String str) {
+		
+		
+		int count=0;
+		String comment="";
+		for(int i=0;i<str.length();i++) {
+			
+			if(str.charAt(i) == '\n') {
+				count=0;
+			}
+			
+			if(count>=95) {
+				comment+='\n';
+				count=0;
+			}else {
+				comment+=str.charAt(i);
+			}
+			count++;
+		}
+		
+		return comment;
+		
+	}
+
 }

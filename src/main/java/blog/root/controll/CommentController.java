@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import blog.root.mapper.CommentMapper;
+import blog.root.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentController {
 
 	@Inject
-	private CommentMapper commentmapper;
+	private CommentService commentmapper;
 	
 	@PostMapping("/board/{board_number}/comment")
 	@ResponseBody
@@ -25,14 +25,14 @@ public class CommentController {
 		if(session.getAttribute("root") != null) {
 			log.info("로그있음.");
 
-			commentInput = solve(commentInput);
+			commentInput = commentmapper.solve(commentInput);
 			commentmapper.insertComment(board_number, commentInput, 1);
 			
 			
 		}else {
 			log.info("로그없음");
 
-			commentInput = solve(commentInput);
+			commentInput = commentmapper.solve(commentInput);
 			commentmapper.insertComment(board_number, commentInput, 0);
 			
 		}
@@ -40,29 +40,4 @@ public class CommentController {
 		return 1;
 	}
 
-	private static String solve(String str) {
-		log.info("text len test ------");
-		
-		int count=0;
-		String comment="";
-		for(int i=0;i<str.length();i++) {
-			
-			if(str.charAt(i) == '\n') {
-				count=0;
-			}
-			
-			if(count>=95) {
-				comment+='\n';
-				log.info("-");
-				count=0;
-			}else {
-				comment+=str.charAt(i);
-			}
-			count++;
-		}
-		
-		log.info(":"+comment);
-		return comment;
-		
-	}
 }

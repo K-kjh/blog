@@ -9,5 +9,6 @@ import blog.root.model.CommentDTO;
 public interface CommentService {
 	public List<CommentDTO> selectCommentList(int comment_number) throws Exception;
 	public int insertComment(int comment_number,String contents,int writer) throws Exception;
+	public String solve(String str);
 
 }
