@@ -23,7 +23,7 @@ public class CommentController {
 	public int commentInput(@PathVariable int board_number,String commentInput , HttpSession session) throws Exception {
 		
 		if(session.getAttribute("root") != null) {
-			log.info("로그있음");
+			log.info("로그있음.");
 
 			commentInput = solve(commentInput);
 			commentmapper.insertComment(board_number, commentInput, 1);

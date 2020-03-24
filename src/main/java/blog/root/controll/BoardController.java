@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import blog.root.model.BoardDTO;
 import blog.root.model.CommentDTO;
@@ -21,7 +19,6 @@ import blog.root.model.SubjectVO;
 import blog.root.service.BoardService;
 import blog.root.service.CommentService;
 import blog.root.service.SubjectService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -77,7 +74,6 @@ public class BoardController {
 	@ResponseBody
 	public int boardCreate(String board_title,String board_contents,int board_type) {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
-		String str;
 		
 		int a =boardService.Board_create(board_title, board_type, board_contents);
 		return a;

@@ -1,19 +1,9 @@
 package blog.root.controll;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.UUID;
 
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,33 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class ImageController {
-	
-	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	@ResponseBody 
-	public ResponseEntity<Resource> downloadFile(String fileName){
-		File file2 = new File("/home/kang/file.txt");
-		try {
-			file2.createNewFile();
-			FileWriter fw = new FileWriter(file2.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			
-	        System.out.println(this.getClass().getResource("").getPath());
-	        System.out.println(this.getClass().getResource("/").getPath());
-	        
-	        System.out.println(new File("").getAbsolutePath());
-	      
-	        
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String currDir = ImageController.class.getResource(".").getPath();
-		log.info("현재 클래스 경로 :"+currDir);
-		
-		return null;
-	}
-	
+
 	@PostMapping(value="/uploads")
 	@ResponseBody
 	public String uploads(MultipartFile[] uploadFile,String Time) {
