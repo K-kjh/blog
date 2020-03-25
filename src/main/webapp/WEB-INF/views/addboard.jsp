@@ -82,7 +82,7 @@
 		<!-- 내용  -->
 		
 		<div id="board_contents"class="border border-primary" style="width:1500px;height:650px;float:top;
-			overflow-y: auto; padding-left:40px;" contenteditable="true"  >
+			overflow-y: auto; padding-left:40px;" contenteditable="true" >
 			<%if(request.getAttribute("update_board_contents") != null){%>	
 					<%=request.getAttribute("update_board_contents")%>
 			<%}%> 
@@ -135,9 +135,37 @@
  	var image_src;
 	var image_src_file = [];
   	var subtype=1;
-  	
+
+	var d = new Date();
+	var dtime;
+	
 	var board_number="<%=request.getAttribute("update_board_number") %>";
   	var board_title="<%=request.getAttribute("update_board_title")%> " ;
+  	
+  	$('#board_contents').on('drop',function(e){
+  		e.stopPropagation();
+  		e.preventDefault();
+
+  		var file = e.originalEvent.dataTransfer.files;
+  		 			
+  		var formData = new FormData();
+  		dtime=d.getTime();
+  		
+		formData.append("uploadFile",file[0]);
+		formData.append("Time",""+dtime);
+		 
+		 $.ajax({
+			url:'/uploads',
+			processData: false,
+			contentType: false,
+			data: formData,
+			type: 'POST',
+			success: function(result){
+				$("div#board_contents").append("<img src=/img/"+result+" style='width:850px;height:auto;'>"); 
+			}
+		 });
+  		
+  	});
   	
   	$('#board_update_button').click(function(){
   		console.log(" title : "+$('#board_title').html());
@@ -201,8 +229,6 @@
   		
 	});
 
-	var d = new Date();
-	var dtime;
 	
   	$('#image_file').click(function(){
   		dtime=d.getTime();
@@ -240,8 +266,7 @@
 			data: formData,
 			type: 'POST',
 			success: function(result){
-				
-				 $("div#board_contents").append("<img src=/img/"+result+" style='width:850px;height:auto;'>"); 
+				$("div#board_contents").append("<img src=/img/"+result+" style='width:850px;height:auto;'>"); 
 			}
 		 });
 

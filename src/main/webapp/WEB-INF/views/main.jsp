@@ -18,7 +18,13 @@
 </head>
 
 <body>
-<div style="height:100px;">
+<div style="height: 100px;width: 1650px;">
+	<form action="/about" method="get">
+	<button  style="
+			margin-left: 1550px;
+	   	 	width: 150px;
+	    	height: 50px;"type="submit" class="btn btn-secondary btn-lg">About</button>
+	</form>
 </div>
 
 <div style="width:1700px;height:650px;">

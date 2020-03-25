@@ -1,5 +1,8 @@
 package blog.root.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ImageServiceImpl implements ImageService{
 
 	public String imgType(String str) {
