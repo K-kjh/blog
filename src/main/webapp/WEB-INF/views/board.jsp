@@ -151,14 +151,14 @@
 	$('#update').click(function(){
 		console.log(" title : "+title+", "+$('#title').val() +" ::: "+$('#title').html() +" number : "+board_number);
 		
-		location.href="/board/"+board_number+"/update";
+		location.href="/board/"+board_number+"/updatePage";
 	});
 
 	$('#delete').click(function(){
 		 
 		 $.ajax({
 			url :"/board/"+board_number+"/delete",
-			type: "POST",
+			type: "DELETE",
 			success : function(data){
 				if(data  == 1){
 					console.log(" 게시물 삭제 성공 ");

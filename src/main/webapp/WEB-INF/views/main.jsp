@@ -200,7 +200,7 @@
 	     };
 	    $.ajax({
 			url :"/board/count",
-			type: "post",
+			type: "PUT",
 			data : query,
 			success : function(data){}
 		}); //ajax -end

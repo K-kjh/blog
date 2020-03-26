@@ -48,7 +48,7 @@ public class BoardController {
 		
 	}
 
-	@GetMapping("/board/{board_number}/update") 
+	@GetMapping("/board/{board_number}/updatePage") //location.href 로 이동함 
 	public String board_update(@PathVariable int board_number,Model model) throws Exception {
 	
 		List<SubjectVO> subList = subjectService.AllSubject();
