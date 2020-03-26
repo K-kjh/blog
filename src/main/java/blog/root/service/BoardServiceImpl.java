@@ -1,5 +1,6 @@
 package blog.root.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,7 +65,42 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.boardDelete(board_number);
 	}
 
-	
+	public ArrayList<String> GetContentsImageSrc(String src){
+		String imageDefaultSrc ="<img src=\"/img/imageTemp/";
+		ArrayList<String> list = new ArrayList<String>();
+		
+		for(int i=0;i<src.length();i++) {
+			boolean isSrc=false;
+			
+			if(imageDefaultSrc.charAt(0) == src.charAt(i)) {
+				for(int j=1;j<imageDefaultSrc.length();j++) {
+					if(imageDefaultSrc.charAt(j) == src.charAt(i+j)) {
+						isSrc=true;
+					}else {
+						isSrc=false;
+						break;
+					}
+				}
+			}
+			
+			if(isSrc==true) {
+				list.add(GetSrc(i+imageDefaultSrc.length(),src));
+			}
+		}
+		
+		return list;
+	}
+	private static String GetSrc(int u,String src) {
+		String s="";
+		for(int i=u;i<u+55;i++) {
+			if(src.charAt(i)== '"') {
+				break;
+			}
+			s+=src.charAt(i);
+		}
+		return s;
+		
+	}
 	
 
 }

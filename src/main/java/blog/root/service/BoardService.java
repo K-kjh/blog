@@ -1,5 +1,6 @@
 package blog.root.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import blog.root.model.BoardDTO;
@@ -15,5 +16,5 @@ public interface BoardService {
 	public List<BoardVO> mainBoardList(int paging_number) throws Exception;
 	public int boardUpdate(String board_contents,String board_title,int board_type,int board_number) throws Exception;
 	public int boardDelete(int board_number)throws Exception;
-	
+	public ArrayList<String> GetContentsImageSrc(String src);
 }

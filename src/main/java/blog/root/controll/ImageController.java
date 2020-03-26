@@ -21,13 +21,11 @@ public class ImageController {
 	@Inject
 	public ImageService service;
 	
-	@Scheduled(cron="")
-	
-	@PostMapping(value="/upload/temp")
-	public String imageTemp() {
-		return null;
+	@Scheduled(cron="0 0 3 * * ?")//매일 새벽 3시 정각 실행 	처음봄 초 분 시 일 월 요일 연도=생략가능 
+	private void ImageTimeDelte() {
+		service.todayImageTempDelete();
 	}
-	
+
 	
 	@PostMapping(value="/uploads")
 	@ResponseBody

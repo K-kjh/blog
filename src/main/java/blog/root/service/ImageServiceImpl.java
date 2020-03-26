@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
@@ -31,8 +32,9 @@ public class ImageServiceImpl implements ImageService{
 //	}
 //	
 //	
-	/** 임시 파일 이 시간이 지난 파일은 자동적 매일 0시 마다 3일 이상 차이가 난다면 자동적 삭제 
+	/** 임시 파일 이 시간이 지난 파일은 자동적 매일 0시 마다 3일 이상 차이가 난다면 자동적 삭제 part.1
 	 * 
+	 * @Date 2020 03 26
 	 */
 	public void todayImageTempDelete() {
 		
@@ -52,10 +54,11 @@ public class ImageServiceImpl implements ImageService{
 		
 	}
 	
-	/** 해당파일이 3일 이상이 된다면 삭제 
+	/** 해당파일이 3일 이상이 된다면 삭제 part.2
 	 * @param name
+	 * @Date 2020 03 26
 	 */
-	public void fileDateDelete(String name) {
+	private static void fileDateDelete(String name) {
 		
 		File file = new File(tempFileSrc+name);
 		
@@ -80,8 +83,9 @@ public class ImageServiceImpl implements ImageService{
 	 * 
 	 * @param fileOriginName
 	 * @return
+	 * @Date 2020 03 26
 	 */
-	public long srcTimeNumber(String fileOriginName) {
+	private static long srcTimeNumber(String fileOriginName) {
 		long number=0;
 		for(int i=0;i<fileOriginName.length();i++) {
 			
@@ -100,8 +104,9 @@ public class ImageServiceImpl implements ImageService{
 	/** 파일 지우기 
 	 * @param file
 	 * @return
+	 * @Date 2020 03 26
 	 */
-	public boolean fileDelte(File file) {
+	private static boolean fileDelte(File file) {
 		if(file.exists()) {
 			if(file.delete()) {
 				return true;
@@ -110,11 +115,22 @@ public class ImageServiceImpl implements ImageService{
 		return false;
 	}
 	
+	/** 임시 파일 리스트들을 이동시킴 
+	 *
+	 * @Date 2020 03 26
+	 */
+	public void filemoveList(ArrayList<String> list) {
+		for(int i=0;i<list.size();i++) {
+			fileMove(list.get(i));
+		}
+	}
 	
 	/** 파일 이동 
 	 * @param fileName
+	 * 
+	 * @Date 2020 03 26
 	 */
-	public void fileMove(String fileName) {
+	private static void fileMove(String fileName) {
 		
 		File orifile = new File(tempFileSrc+fileName);
 		File copfile = new File(originFileSrc+fileName);

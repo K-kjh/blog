@@ -1,5 +1,6 @@
 package blog.root.controll;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import blog.root.model.CommentDTO;
 import blog.root.model.SubjectVO;
 import blog.root.service.BoardService;
 import blog.root.service.CommentService;
+import blog.root.service.ImageService;
 import blog.root.service.SubjectService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +38,9 @@ public class BoardController {
 	private CommentService commentService;
 	
 	
+	@Inject
+	private ImageService imageservice;
+	
 	
 	@GetMapping("/board")
 	public void board(Model model) {
@@ -44,7 +49,7 @@ public class BoardController {
 	
 	@GetMapping("/board/{board_number}/update") 
 	public String board_update(@PathVariable int board_number,Model model) throws Exception {
-		
+	
 		List<SubjectVO> subList = subjectService.AllSubject();
 		BoardDTO boardDTO = boardService.selectBoardList(board_number);
 		
@@ -74,6 +79,11 @@ public class BoardController {
 	@ResponseBody
 	public int boardCreate(String board_title,String board_contents,int board_type) {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
+		
+		ArrayList<String> list= boardService.GetContentsImageSrc(board_contents);
+		
+		imageservice.filemoveList(list);
+		board_contents=board_contents.replace("<img src=\"/img/imageTemp/", "<img src=\"/img/");
 		
 		int a =boardService.Board_create(board_title, board_type, board_contents);
 		return a;
