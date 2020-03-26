@@ -115,14 +115,15 @@ public class ImageServiceImpl implements ImageService{
 		return false;
 	}
 	
-	/** 임시 파일 리스트들을 이동시킴 
+	/** 임시 파일 리스트들을 이동시킴 와 동싱 내용을 수정함 
 	 *
 	 * @Date 2020 03 26
 	 */
-	public void filemoveList(ArrayList<String> list) {
+	public String filemoveList(ArrayList<String> list,String src) {
 		for(int i=0;i<list.size();i++) {
 			fileMove(list.get(i));
 		}
+		return src=src.replace("<img src=\"/img/imageTemp/", "<img src=\"/img/");
 	}
 	
 	/** 파일 이동 

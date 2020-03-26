@@ -1,6 +1,5 @@
 package blog.root.controll;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,9 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import blog.root.model.BoardDTO;
@@ -46,7 +47,7 @@ public class BoardController {
 	public void board(Model model) {
 		
 	}
-	
+
 	@GetMapping("/board/{board_number}/update") 
 	public String board_update(@PathVariable int board_number,Model model) throws Exception {
 	
@@ -80,17 +81,15 @@ public class BoardController {
 	public int boardCreate(String board_title,String board_contents,int board_type) {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
 		
-		ArrayList<String> list= boardService.GetContentsImageSrc(board_contents);
+		board_contents = imageservice.filemoveList
+				(boardService.GetContentsImageSrc(board_contents)
+						,board_contents);
 		
-		imageservice.filemoveList(list);
-		board_contents=board_contents.replace("<img src=\"/img/imageTemp/", "<img src=\"/img/");
-		
-		int a =boardService.Board_create(board_title, board_type, board_contents);
-		return a;
+		return boardService.Board_create(board_title, board_type, board_contents);
 		
 	}
 	
-	@PostMapping(value="/board/{board_number}/delete")
+	@DeleteMapping(value="/board/{board_number}/delete")
 	@ResponseBody
 	public int boardDelete(@PathVariable int board_number,HttpSession session) {
 		if(session.getAttribute("root") != null) {
@@ -105,7 +104,7 @@ public class BoardController {
 		return 0;
 	}
 	
-	@PostMapping(value="/board/{board_number}/update")
+	@PutMapping(value="/board/{board_number}/update")
 	@ResponseBody
 	public int boardUpdate(@PathVariable int board_number, String board_title,String board_contents,int board_type) {
 		String str;
@@ -135,7 +134,7 @@ public class BoardController {
 	}
 	
 	
-	@PostMapping(value="/board/count")
+	@PutMapping(value="/board/count")
 	@ResponseBody
 	public void boardCount(int board_count,HttpServletRequest req,Model model) {
 		try {

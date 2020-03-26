@@ -10,5 +10,5 @@ public interface ImageService {
 	
 	//2020 03 26 add
 	public void todayImageTempDelete();
-	public void filemoveList(ArrayList<String> list);
+	public String filemoveList(ArrayList<String> list,String src);
 }
