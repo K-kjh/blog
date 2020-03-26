@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +20,14 @@ public class ImageController {
 
 	@Inject
 	public ImageService service;
+	
+	@Scheduled(cron="")
+	
+	@PostMapping(value="/upload/temp")
+	public String imageTemp() {
+		return null;
+	}
+	
 	
 	@PostMapping(value="/uploads")
 	@ResponseBody
@@ -36,7 +45,7 @@ public class ImageController {
 			String uploadFileName = multipartFile.getOriginalFilename();
 			
 			String currDir = ImageController.class.getResource(".").getPath();
-			String path=service.projectImageStr(currDir);
+			String path=service.projectImageStr(currDir)+"imageTemp/";
 		
 			UUID uuid=UUID.randomUUID();
 			uploadFileName=Time+"_"+uuid.toString()+service.imgType(uploadFileName);

@@ -142,18 +142,44 @@
 	var board_number="<%=request.getAttribute("update_board_number") %>";
   	var board_title="<%=request.getAttribute("update_board_title")%> " ;
   	
+	/* 이미지 업로드  */
+  	$('#image_file').click(function(){
+  		dtime=d.getTime();
+  	});
+  	
+	//이미지 업로드시 화면에 이미지를 보여줌
+	$(".image_put").click(function(e){
+		
+		 var formData = new FormData();
+		 var inputFile = $("input[name='uploadFile']");
+		 var files = inputFile[0].files;
+		 
+		 for(var i=0;i<files.length;i++){
+			 formData.append("uploadFile",files[i]);
+		 }
+		 formData.append("Time",""+dtime);
+
+		image_add(formData);
+		
+	}); 
+	
+	// div 안에 이미지 파일 드래그시 이미지 미리보기 
   	$('#board_contents').on('drop',function(e){
   		e.stopPropagation();
   		e.preventDefault();
 
   		var file = e.originalEvent.dataTransfer.files;
-  		 			
   		var formData = new FormData();
   		dtime=d.getTime();
   		
 		formData.append("uploadFile",file[0]);
 		formData.append("Time",""+dtime);
-		 
+		
+		image_add(formData);
+  		
+  	});
+  	
+  	function image_add(formData){
 		 $.ajax({
 			url:'/uploads',
 			processData: false,
@@ -161,11 +187,10 @@
 			data: formData,
 			type: 'POST',
 			success: function(result){
-				$("div#board_contents").append("<img src=/img/"+result+" style='width:850px;height:auto;'>"); 
+				$("div#board_contents").append("<img src=/img/imageTemp/"+result+" style='width:850px;height:auto;'>"); 
 			}
 		 });
-  		
-  	});
+  	};
   	
   	$('#board_update_button').click(function(){
   		console.log(" title : "+$('#board_title').html());
@@ -229,50 +254,7 @@
   		
 	});
 
-	
-  	$('#image_file').click(function(){
-  		dtime=d.getTime();
-  	});
-  	
- 
-  	
-	$(".image_put").click(function(e){
-		
-		console.log("date : "+d+ " ::::: -+-+-+"+ d.getTime());
-		
-		image_src=$('#image_file').val();
-		console.log("image: "+image_src);
-		var test_image=image_src;
-		image_src=$('#image_file').val().split("\\");
-		console.log("::: "+image_src[image_src.length-1]);
-		image_src=image_src[image_src.length-1];
-		
-		
-		 var formData = new FormData();
-		 var inputFile = $("input[name='uploadFile']");
-		 var files = inputFile[0].files;
-		 
-		 console.log("files : "+files);
-		 
-		 for(var i=0;i<files.length;i++){
-			 formData.append("uploadFile",files[i]);
-		 }
-		 formData.append("Time",""+dtime);
-		 
-		 $.ajax({
-			url:'/uploads',
-			processData: false,
-			contentType: false,
-			data: formData,
-			type: 'POST',
-			success: function(result){
-				$("div#board_contents").append("<img src=/img/"+result+" style='width:850px;height:auto;'>"); 
-			}
-		 });
 
-		 
-		 
-	}); 
 	
 	
 </script>
