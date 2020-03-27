@@ -40,7 +40,7 @@ public interface BoardMapper {
 	public int BoardCount(int board_number) throws Exception;
 	//게시물 클릭시 조회수 올리는 컬럼 
 	
-	@Select("select * from board where board_number = #{board_number}")
+	@Select("select * from board where board_number = #{board_number}") 
 	public BoardDTO selectBoardList(int board_number) throws Exception;
 	//게시판 안에내용 전부 
 

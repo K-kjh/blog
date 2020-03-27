@@ -81,9 +81,10 @@ public class BoardController {
 	public int boardCreate(String board_title,String board_contents,int board_type) {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
 		
-		board_contents = imageservice.filemoveList
-				(boardService.GetContentsImageSrc(board_contents)
-						,board_contents);
+				board_contents =
+							imageservice.filemoveList
+							(boardService.GetContentsImageSrc(board_contents)
+							,board_contents);
 		
 		return boardService.Board_create(board_title, board_type, board_contents);
 		
@@ -158,15 +159,20 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/{board_number}")
-	public String board_number(@PathVariable int board_number,Model model) throws Exception {
+	public String board_number(@PathVariable int board_number,Model model) {
 		
-		BoardDTO boardDTO = boardService.selectBoardList(board_number);
-		List<CommentDTO> commentDTO = commentService.selectCommentList(board_number);
-		
-		model.addAttribute("board_number", board_number);
-		model.addAttribute("boardDTO",boardDTO);
-		model.addAttribute("commentDTO",commentDTO);
-		
+		BoardDTO boardDTO;
+		try {
+			boardDTO = boardService.selectBoardList(board_number);
+	
+			List<CommentDTO> commentDTO = commentService.selectCommentList(board_number);
+			
+			model.addAttribute("board_number", board_number);
+			model.addAttribute("boardDTO",boardDTO);
+			model.addAttribute("commentDTO",commentDTO);
+		} catch (Exception e) {
+			
+		}
 		return "board";
 	}
 	

@@ -206,7 +206,7 @@
 	   
 	   	$.ajax({
 				url :"/board/"+board_number+"/update" ,
-				type: "post",
+				type: "PUT",
 				data : query,
 				   success : function(data){
 				          //0 실패 1 성공

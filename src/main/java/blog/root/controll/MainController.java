@@ -39,6 +39,9 @@ public class MainController {
 	@Inject
 	private RootService rootService;
 	
+	
+	//page -------------------------------------------------------------------------------------------------------  start
+	
 	@GetMapping("/sub/{subject_type}")
 	public String pageup(@PathVariable int subject_type ,Model model ,HttpServletResponse res) throws Exception {
 		
@@ -56,7 +59,7 @@ public class MainController {
 		//게시물 최대값 
 		
 		int page_m =board_number_max/13;
-		int page_max= board_number_max%13 > 0 ? 1 : 0; 
+		int page_max= board_number_max%13 >= 1 ? 1 : 0; 
 		page_max +=page_m;
 		//페이지 최대값 
 		
@@ -85,13 +88,10 @@ public class MainController {
 		
 		//게시물 최대값 
 		int page_m =board_number_max/13;
-		int page_max= board_number_max%13 > 0 ? 1 : 0; 
+		int page_max= board_number_max%13 >= 1 ? 1 : 0; 
 		page_max +=page_m;
 		
-		//페이지 최대값 
-//		메뉴 
 		List<SubjectVO> subList = subjectService.AllSubject();
-		
 		List<BoardVO>  boardList = boardService.subtypeBoardList(subject_type, page*13);
 		
 
@@ -105,35 +105,33 @@ public class MainController {
 	
 	@GetMapping("/page/{page}")
 	public String mainpage(@PathVariable int page,Model model) throws Exception {
-		
+		log.info("page ----------------------------------------------------------...");
 		int board_number_max = boardService.paging_max();
 		//게시물 최대값 
 		
 		int page_m =board_number_max/13;
-		int page_max= board_number_max%13 > 0 ? 1 : 0; 
-		page_max +=page_m;
+		log.info("1.page:"+page_m);
+		int page_max= board_number_max%13 >= 1 ? page_m <= 13 ? 0 : 1 : 0; 
+		page_max +=page_m-1;
 		//페이지 최대값 
-		
-		log.info("page : "+page);
+
+		log.info(" page : "+page +", max : "+page_max);
 		if(page  >= page_max) {
-			// 끝물 페이지는 값을 전달하지 못함 만약 0, 1, 2 ,3
-			log.info(" page : "+page +", max : "+page_max);
+			// 끝물 페이지는 값을 전달하지 못함 만약 0, 1, 2 ,3 
+			log.info("-");
 			
 		} 
-		log.info("page put : "+page +" _++ : "+page+13);
-		
+
 		List<SubjectVO> subList = subjectService.AllSubject();
 		List<BoardVO>  boardList = boardService.mainBoardList((page*13));
-		
 		model.addAttribute("page",page);
-		model.addAttribute("page_max",page_max-1);
+		model.addAttribute("page_max",page_max);
 		model.addAttribute("subList", subList );
 		model.addAttribute("boardList", boardList );
-		
 		return "main";
 		
 	}
-	
+	//page ------------------------------------------------------------------------------------------------------ end 
 	@PostMapping("/root")
 	public void rootlogin( String pwd,HttpSession session,HttpServletResponse res) throws Exception {
 		log.info("pwd. :"+pwd);
