@@ -128,14 +128,16 @@
 	 var page=<%=request.getAttribute("page")%>;
 	 var subject =<%= request.getAttribute("subject_type") %>;
 	 
-	 console.log("subject :: "+subject);
+	 console.log("subject ::: "+subject);
 	 var sub= subject != null ?  "/sub/"+subject : "" ;
 	 console.log("sub :::  "+sub);
 	 //페이징 왼쪽 버튼
     $('#button_left').click(function(){
 		var pagedown=page-1;
 		var link;
-		console.log("sub : "+subject);
+		
+		console.log("sub. : "+subject);
+		
     	if(pagedown >= 0){
     		console.log("10....페이지 이동 :"+page+" , "+sub);
     		if(sub == "" && pagedown == 0){
@@ -148,12 +150,9 @@
     	   		 link ="/page/"+pagedown;
     		}
     		console.log("link : "+link);
-
-    	}else{
-    		
-    	}
-    	
         	location.href=link;
+    	}else{}
+    	
     });
     
 	 //페이징 오른쪾 버튼
@@ -183,7 +182,7 @@
     		console.log("페이지 not5 이동");
     	}
     	
-    	console.log("page up not : "+page+" pageup : "+pageup +" , pagemax ,: "+pagemax);
+    	console.log("- page up not : "+page+" pageup : "+pageup +" , pagemax ,: "+pagemax);
     });
     
     /* 페이징 버튼 */
@@ -192,8 +191,6 @@
     /*게시판 생성 링크  */
     $('#board_add').click(function(){
     	location.href="/board/addboard";
-    	
-    	
     });
     
     /* 게시판 내용 확인  */

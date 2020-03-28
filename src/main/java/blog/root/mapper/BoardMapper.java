@@ -28,7 +28,7 @@ public interface BoardMapper {
 	public int paging_max();
 	//게시물 최대값을 구해옴 
 	
-	@Select("select max(board_type) from board  where board_type=#{board_type}")
+	@Select("select count(board_type) from board  where board_type=#{board_type}")
 	public int paging_type_max(@Param("board_type")int board_type) throws Exception;
 	//타입별 페이징 최대페이지 
 	

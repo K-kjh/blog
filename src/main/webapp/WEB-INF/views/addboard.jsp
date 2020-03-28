@@ -30,7 +30,7 @@
 	    height:48px;
 	    padding: .8em .5em; /* 여백으로 높이 설정 */
 	    font-family: inherit;  /* 폰트 상속 */
-	    background: url(/resources/image/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
+	    background: url(/resources/image/1234123412341234.jpeg) no-repeat 95% 50%; /* 네이티브 화살표를 커스텀 화살표로 대체 */
 	    border: 1px solid #999;
 	    border-radius: 0px; /* iOS 둥근모서리 제거 */
 	    -webkit-appearance: none; /* 네이티브 외형 감추기 */
@@ -67,26 +67,31 @@
 		<p class="text-muted" style="margin-left:80px;">40자 까지 입력하시오.</p>
 		<div style="width:100px;heigth:50px;float:left;">
 			<h3 >
-				<p class="text-muted" style="margin-top:5px;" >제목 :
+				<p class="text-muted" style="margin-top:5px;" >제목.:
 				</p>
 			
 			</h3>
 		</div>
-		<div id="board_title" class="alert alert-success" role="alert"
-		 style="margin-left:85px;width:1400px;height:50px;float:top;overflow-y:auto;" contenteditable="true" >
-		 	<%if(request.getAttribute("update_board_title") != null){%>	
-					<%=request.getAttribute("update_board_title")%>
-			<%}%>
-		</div>
+		<%if(request.getAttribute("update_board_title") != null){%>
+			<div id="board_title" class="alert alert-success" role="alert"
+		 	style="margin-left:85px;width:1400px;height:50px;float:top;overflow-y:auto;" contenteditable="true" 
+		 	><%=request.getAttribute("update_board_title")%></div>
+		 <%}else{%>
+			 <div id="board_title" class="alert alert-success" role="alert"
+			 style="margin-left:85px;width:1400px;height:50px;float:top;overflow-y:auto;" contenteditable="true"></div>
+		 <%}%>
+		
 		
 		<!-- 내용  -->
-		
-		<div id="board_contents"class="border border-primary" style="width:1500px;height:650px;float:top;
-			overflow-y: auto; padding-left:40px;" contenteditable="true" >
-			<%if(request.getAttribute("update_board_contents") != null){%>	
-					<%=request.getAttribute("update_board_contents")%>
-			<%}%> 
-		</div>
+		<%if(request.getAttribute("update_board_contents") != null){%>
+			<div id="board_contents"class="border border-primary" style="width:1500px;height:650px;float:top;
+			overflow-y: auto; padding-left:40px;" contenteditable="true" 
+			><%=request.getAttribute("update_board_contents")%></div>
+		<%}else{%>
+			<div id="board_contents"class="border border-primary" style="width:1500px;height:650px;float:top;
+			overflow-y: auto; padding-left:40px;" contenteditable="true">
+			</div>
+		<%}%>
 		
 		<!-- 버튼 칸 -->
 		<div class="border border-primary" style="width:1500px;height:55px;float:top;">
@@ -102,21 +107,14 @@
 			%>
 			
 			<select id="subtype" style="margin-left:12px;">
-		    <option selected> <%=subjects.get(0).getSub_number() %>. <%=subjects.get(0).getBoard_sub_type() %></option>
-		      	
-		      	<%String spa=" "; %>
-				<%for(SubjectVO subject:subjects){ %>
-				
-					<%if(subject.getSub_number() < 10){spa=" ";
-					}else{spa="";}%>
-					
-					<%if(subject.getSub_number() == 1){%>
-                 <%}else{ %>
-                 
-		   			 <option value=<%=subject.getSub_number() %>><%=subject.getSub_number() %><%=spa%>.<%=subject.getBoard_sub_type() %></option>
-		      		<%}/*  if-else end */ %>
-				<%}/* for-end */ %>
-			</select>
+		    <option selected> <%=subjects.get(0).getSub_number() %>. <%=subjects.get(0).getBoard_sub_type() %></option><%
+		    	String spa=" ";
+		      	for(SubjectVO subject:subjects){
+					if(subject.getSub_number() < 10){spa=" ";
+					}else{spa="";}
+					if(subject.getSub_number() == 1){
+                 }else{ %><option value=<%=subject.getSub_number() %>><%=subject.getSub_number() %><%=spa%>.<%=subject.getBoard_sub_type() %></option><%}/*  if-else end */ %>
+             <%}/* for-end */ %></select>
 			</div>
 			<%if(request.getAttribute("update_board_title")!= null && request.getAttribute("update_board_contents")!=null){ %>
 				<button id="board_update_button" class="btn btn-secondary" type="button" style="margin-top:5px;margin-left:10px;width:100px;">저장</button>
@@ -140,7 +138,7 @@
 	var dtime;
 	
 	var board_number="<%=request.getAttribute("update_board_number") %>";
-  	var board_title="<%=request.getAttribute("update_board_title")%>";
+  	var board_title=" <%=request.getAttribute("update_board_title") %>";
   	
 	/* 이미지 업로드  */
   	$('#image_file').click(function(){
@@ -201,7 +199,7 @@
 		console.log("html 변환 : "+contents);
 
 	   	 var query = { 
-	                board_title : board_title , board_contents : contents , board_type : subtype
+	                board_title : $('#board_title').html() , board_contents : contents , board_type : $('#subtype').val()
 	    };
 	   
 	   	$.ajax({
@@ -237,21 +235,26 @@
 	                board_title : $('#board_title').html() , board_contents : contents , board_type : subtype
 	    };
 	   
-	   	$.ajax({
-				url :"/board/addboard/create",
-				type: "post",
-				data : query,
-				   success : function(data){
-				          //0 실패 1 성공
-				              if(data == 1){
-				            	  
-									location.href ="/";
-				              }else{
-				            	  	alert("게시글 작성 실패");
-				              }
-				         }
-		}); //ajax -end
-  		
+	   	 if($('#board_title').text() == "" || $('#board_title').text()  == " " ){
+	   	 	alert("제목 을 입력하세요 +"+$('#board_title').val()+" , "+$('#board_title').text() +" , "+$('#board_title').html());
+	   	 }else if($('#board_contents').text() == "" || $('#board_contents').text() == " " ){
+	   		alert("내용을 입력하세요 "+$('#board_contents').val() +" , "+$('#board_contents').text() +" , "+$('#board_contents').html() );
+	   	 }else{
+		   	$.ajax({
+					url :"/board/addboard/create",
+					type: "post",
+					data : query,
+					   success : function(data){
+					          //0 실패 1 성공
+					              if(data == 1){
+										location.href ="/";
+					              }else{
+					            	  	alert("게시글 작성 실패");
+					              }
+					         }
+			}); //ajax -end
+
+	   	 }
 	});
 
 
