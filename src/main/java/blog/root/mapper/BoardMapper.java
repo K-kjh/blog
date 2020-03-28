@@ -24,7 +24,7 @@ public interface BoardMapper {
 	public List<BoardVO> subtypeBoardList(@Param("subject_type")int subject_type , @Param("paging_number")int paging_number) throws Exception;
 	//타입별 게시판 구별함
 	
-	@Select("select max(board_number) from board ")
+	@Select("select count(board_number) from board ")
 	public int paging_max();
 	//게시물 최대값을 구해옴 
 	

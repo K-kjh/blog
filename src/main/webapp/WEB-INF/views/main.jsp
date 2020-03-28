@@ -129,28 +129,34 @@
 	 var subject =<%= request.getAttribute("subject_type") %>;
 	 
 	 console.log("subject :: "+subject);
-	 var sub= subject != null ?  "/sub/"+subject: "" ;
+	 var sub= subject != null ?  "/sub/"+subject : "" ;
 	 console.log("sub :::  "+sub);
-	 
+	 //페이징 왼쪽 버튼
     $('#button_left').click(function(){
 		var pagedown=page-1;
-		
+		var link;
 		console.log("sub : "+subject);
     	if(pagedown >= 0){
-    		console.log("페이지 이동"+page);
-    		if(pagedown == 0){
+    		console.log("10....페이지 이동 :"+page+" , "+sub);
+    		if(sub == "" && pagedown == 0){
     			location.href="/";
     		}
     		if(sub != ""){
-            	location.href="/sub/"+subject+"/page/"+pagedown;
-    		}
-        	location.href="/page/"+pagedown;
-    	}else{
+        		 link =sub+"/page/"+pagedown;
+    		}else{
 
-        	console.log("page down not : "+page);
+    	   		 link ="/page/"+pagedown;
+    		}
+    		console.log("link : "+link);
+
+    	}else{
+    		
     	}
+    	
+        	location.href=link;
     });
     
+	 //페이징 오른쪾 버튼
     $('#button_right').click(function(){
     	var pagemax=<%=request.getAttribute("page_max")%>;
     	var pageup=page+1;

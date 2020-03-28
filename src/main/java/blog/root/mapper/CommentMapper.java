@@ -2,6 +2,7 @@ package blog.root.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -16,5 +17,8 @@ public interface CommentMapper {
 	@Insert("insert into comment(comment_number,contents,writer) values(#{comment_number},#{contents},#{writer})")
 	public int insertComment(@Param("comment_number")int comment_number,@Param("contents")String contents,@Param("writer")int writer) throws Exception;
 
-
+	@Delete("delete from comment where comment_number = #{comment_number}")
+	public void deleteAllComment(@Param("comment_number")int comment_number)throws Exception;
+	//특정 게시글 댓글 전체 삭제 
+	
 }

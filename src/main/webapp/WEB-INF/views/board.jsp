@@ -158,7 +158,7 @@
 		 
 		 $.ajax({
 			url :"/board/"+board_number+"/delete",
-			type: "DELETE",
+			type: "delete",
 			success : function(data){
 				if(data  == 1){
 					console.log(" 게시물 삭제 성공 ");

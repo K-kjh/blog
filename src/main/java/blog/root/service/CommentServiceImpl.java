@@ -52,4 +52,9 @@ public class CommentServiceImpl implements CommentService {
 		
 	}
 
+	@Override
+	public void deleteAllComment(int comment_number) throws Exception {
+		mapper.deleteAllComment(comment_number);
+	}
+
 }

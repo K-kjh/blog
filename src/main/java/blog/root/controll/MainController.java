@@ -58,10 +58,10 @@ public class MainController {
 		
 		//게시물 최대값 
 		
-		int page_m =board_number_max/13;
-		int page_max= board_number_max%13 >= 1 ? 1 : 0; 
-		page_max +=page_m;
+		int page_max =board_number_max/13;
+	
 		//페이지 최대값 
+		log.info("page sub : "+ page_max +"page_m");
 		
 		List<SubjectVO> subList = subjectService.AllSubject();
 		List<BoardVO>  boardList = boardService.subtypeBoardList(subject_type, 0);
@@ -87,9 +87,7 @@ public class MainController {
 		}
 		
 		//게시물 최대값 
-		int page_m =board_number_max/13;
-		int page_max= board_number_max%13 >= 1 ? 1 : 0; 
-		page_max +=page_m;
+		int page_max=board_number_max/13;
 		
 		List<SubjectVO> subList = subjectService.AllSubject();
 		List<BoardVO>  boardList = boardService.subtypeBoardList(subject_type, page*13);
@@ -109,13 +107,10 @@ public class MainController {
 		int board_number_max = boardService.paging_max();
 		//게시물 최대값 
 		
-		int page_m =board_number_max/13;
-		log.info("1.page:"+page_m);
-		int page_max= board_number_max%13 >= 1 ? page_m <= 13 ? 0 : 1 : 0; 
-		page_max +=page_m-1;
+		int page_max =board_number_max/13;
+		log.info("page_max"+page_max+" , "+board_number_max);
 		//페이지 최대값 
 
-		log.info(" page : "+page +", max : "+page_max);
 		if(page  >= page_max) {
 			// 끝물 페이지는 값을 전달하지 못함 만약 0, 1, 2 ,3 
 			log.info("-");

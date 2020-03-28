@@ -80,7 +80,7 @@ public class BoardController {
 	@ResponseBody
 	public int boardCreate(String board_title,String board_contents,int board_type) {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
-		
+		board_title.replace("\t", "");
 				board_contents =
 							imageservice.filemoveList
 							(boardService.GetContentsImageSrc(board_contents)
@@ -93,12 +93,15 @@ public class BoardController {
 	@DeleteMapping(value="/board/{board_number}/delete")
 	@ResponseBody
 	public int boardDelete(@PathVariable int board_number,HttpSession session) {
+		log.info("board_delete ::------------------"+board_number);
+	
 		if(session.getAttribute("root") != null) {
 			try {
+				commentService.deleteAllComment(board_number);
 				return boardService.boardDelete(board_number);
+				 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
 		}
 		
@@ -107,7 +110,7 @@ public class BoardController {
 	
 	@PutMapping(value="/board/{board_number}/update")
 	@ResponseBody
-	public int boardUpdate(@PathVariable int board_number, String board_title,String board_contents,int board_type) {
+	public int boardUpdate(@PathVariable int board_number, String board_title,String board_contents ,int board_type) {
 		String str;
 		log.info("title"+board_title);
 		log.info("contents"+board_contents);

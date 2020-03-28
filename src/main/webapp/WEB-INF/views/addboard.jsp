@@ -132,7 +132,7 @@
 </body>
 <script type="text/javascript">
 	
- 	var image_src;
+ 	var image_src=1;
 	var image_src_file = [];
   	var subtype=1;
 
@@ -140,7 +140,7 @@
 	var dtime;
 	
 	var board_number="<%=request.getAttribute("update_board_number") %>";
-  	var board_title="<%=request.getAttribute("update_board_title")%> " ;
+  	var board_title="<%=request.getAttribute("update_board_title")%>";
   	
 	/* 이미지 업로드  */
   	$('#image_file').click(function(){
@@ -206,7 +206,7 @@
 	   
 	   	$.ajax({
 				url :"/board/"+board_number+"/update" ,
-				type: "PUT",
+				type: "put",
 				data : query,
 				   success : function(data){
 				          //0 실패 1 성공
