@@ -28,7 +28,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class MainController {
-	
+	/* 처음 설계부분 완성 
+	 * 
+	 * 시즌 2 부터는 
+	 * 아래꺼 에서 반이상은 추가 
+	 * 
+	 * api 네이버 로그인 
+	 * 시큐리티 로그인
+	 * 클라이드서비스에 올리기 
+	 * 도커써서 이미지 만들기 ci/cd 쉘 스크립트짜서 자동으로 되게 
+	 * 
+	 * 구글 지도 가져오기 
+	 * 
+	 * 크롤링하실거면 크롤링주기는 어떨게 할것이며 저장은 어디에 할건지 
+	 * 
+	 * 엑셀,pdf처리 
+	  
+	 * (auto-scale-out 인프라 설게 L4 fhem qoffjstj ekfdkenrh xmfovlr qnstks  ) 이건 뺴고 
+	 * 
+	 */
 	
 	@Inject
 	private SubjectService subjectService;
