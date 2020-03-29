@@ -81,6 +81,10 @@ public class BoardController {
 	public int boardCreate(String board_title,String board_contents,int board_type) {
 		log.info(" title : "+board_title+"\ncontents : "+board_contents+" , \nboard_type"+board_type);
 		board_title.replace("\t", "");
+		board_contents=board_contents.replace("&gt;",">");
+		board_contents=board_contents.replace("&lt;","<");
+		board_contents=board_contents.replace("&amp;","&");
+		
 				board_contents =
 							imageservice.filemoveList
 							(boardService.GetContentsImageSrc(board_contents)
@@ -90,6 +94,37 @@ public class BoardController {
 		
 	}
 	
+	@PutMapping(value="/board/{board_number}/update")
+	@ResponseBody
+	public int boardUpdate(@PathVariable int board_number, String board_title,String board_contents ,int board_type) {
+		String str;
+		log.info("title"+board_title);
+		log.info("contents"+board_contents);
+		
+		str=board_contents.replace("<div>", "</br>");
+		str=str.replace("<br>", "");
+		str=str.replace("</div>", "");
+
+		str=str.replace("&gt;",">");
+		str=str.replace("&lt;","<");
+		str=str.replace("&amp;","&");
+		
+		log.info("contents"+board_contents);
+		board_contents=str;
+		
+		try {
+			
+			return boardService.
+					boardUpdate(board_contents, board_title, board_type, board_number);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return 0;
+		
+	}
 	@DeleteMapping(value="/board/{board_number}/delete")
 	@ResponseBody
 	public int boardDelete(@PathVariable int board_number,HttpSession session) {
@@ -108,34 +143,7 @@ public class BoardController {
 		return 0;
 	}
 	
-	@PutMapping(value="/board/{board_number}/update")
-	@ResponseBody
-	public int boardUpdate(@PathVariable int board_number, String board_title,String board_contents ,int board_type) {
-		String str;
-		log.info("title"+board_title);
-		log.info("contents"+board_contents);
-		
-		str=board_contents.replace("<div>", "<br/>");
-		str=str.replace("<br>", "");
-		str=str.replace("</div>", "");
 
-		
-		log.info("contents"+board_contents);
-		board_contents=str;
-		
-		try {
-			
-			return boardService.
-					boardUpdate(board_contents, board_title, board_type, board_number);
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-		
-		return 0;
-		
-	}
 	
 	
 	@PutMapping(value="/board/count")

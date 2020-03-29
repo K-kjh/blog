@@ -54,7 +54,34 @@ public class ImageServiceImpl implements ImageService{
 		
 	}
 	
-	/** 해당파일이 3일 이상이 된다면 삭제 part.2
+	/** 해당파일이 3일 이	@PutMapping(value="/board/{board_number}/update")
+	@ResponseBody
+	public int boardUpdate(@PathVariable int board_number, String board_title,String board_contents ,int board_type) {
+		String str;
+		log.info("title"+board_title);
+		log.info("contents"+board_contents);
+		
+		str=board_contents.replace("<div>", "<br/>");
+		str=str.replace("<br>", "");
+		str=str.replace("</div>", "");
+
+		
+		log.info("contents"+board_contents);
+		board_contents=str;
+		
+		try {
+			
+			return boardService.
+					boardUpdate(board_contents, board_title, board_type, board_number);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return 0;
+		
+	}상이 된다면 삭제 part.2
 	 * @param name
 	 * @Date 2020 03 26
 	 */

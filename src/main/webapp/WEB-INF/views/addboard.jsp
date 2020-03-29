@@ -59,6 +59,7 @@
 			HTML 태그를 사용할수 있습니다<br/>[s] 태그 :<s>텍스트</s><br/>[ins] 태그:<ins>밑줄</ins><br/>[strong] 태그 : <strong>텍스트</strong><br/>
 			[kbd] 태그 :<kbd>text</kbd><br/>	
 			<br/>자세한건:<a href="https://getbootstrap.com/docs/4.4/content/typography/">1링크</a>,<a href="http://bootstrapk.com/css/#type">2링크</a>
+		*html 태그가 적용될수 있으니 이점 주의하시고 작성하시기 바람니다.
 	</div>
 	
 	<!--  메인 -  -->
@@ -190,6 +191,10 @@
 		 });
   	};
   	
+  	$('#subtype').click(function(){
+  		subtype=$(this).val();
+  	});
+  	
   	$('#board_update_button').click(function(){
   		console.log(" title : "+$('#board_title').html());
   		console.log(" subtype : "+subtype);
@@ -198,10 +203,12 @@
 		contents=contents.replace(/(?:\r\n|\r|\n)/g,'<br/>');
 		console.log("html 변환 : "+contents);
 
+
 	   	 var query = { 
-	                board_title : $('#board_title').html() , board_contents : contents , board_type : $('#subtype').val()
+	                board_title : $('#board_title').html() , board_contents : contents, board_type : subtype
 	    };
 	   
+	   	 console.log(" :"+$('#subtype').val() +" , "+ subtype);
 	   	$.ajax({
 				url :"/board/"+board_number+"/update" ,
 				type: "put",
@@ -218,9 +225,7 @@
 		}); //ajax -end
   	});
   	
-  	$('#subtype').click(function(){
-  		subtype=$(this).val();
-  	});
+
   	
   	$('#board_create_button').click(function(){
 

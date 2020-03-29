@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"  %>
 <%@ page import="java.util.List,blog.root.model.BoardDTO, blog.root.model.CommentDTO,java.sql.Timestamp,javax.servlet.http.HttpSession" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +84,9 @@
 	
 		<!-- 내용 -->
 			<div class="border" id="contents"  role="alert" style="width:1500px;height:auto;float:top;background-color:rgb(247,247,247);border-color:rgb(255,239,239);">
-				<div style="padding:20px;" id="board_contents"><%=board.getBoard_contents() %></div>
+				<div style="padding:20px;" id="board_contents" >
+				 <c:out value="<%=board.getBoard_contents()%>"  escapeXml="false"/>
+				</div>
 				  
 			</div>
 				<!-- 삭제 수정 버튼 -->
