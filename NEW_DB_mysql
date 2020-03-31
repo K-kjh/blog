@@ -1,0 +1,71 @@
+drop table root;
+drop table subject;
+drop table user;
+drop table withdrawal;
+drop table login_history;
+drop table board;
+drop table comment;
+
+
+CREATE TABLE root (
+    pwd VARCHAR(65) NOT NULL
+);
+CREATE TABLE subject (
+    board_sub_type VARCHAR(50) NOT NULL,
+    sub_number INT(16) NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+
+
+CREATE TABLE user (
+    user_number INT(16) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id VARCHAR(38) NOT NULL,
+    pw VARCHAR(50) NOT NULL,
+    email VARCHAR(80) NOT NULL,
+    id_create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    nickname VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE withdrawal (
+	id_number INT(16) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(80) NOT NULL,
+    id VARCHAR(38) NOT NULL,
+    id_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE login_history (
+    user_number INT(16) NOT NULL,
+    login_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_number)
+        REFERENCES user (user_number)
+);
+
+
+
+CREATE TABLE board (
+    board_number INT(16) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    board_title VARCHAR(100) NOT NULL,
+    board_type INT(16) NOT NULL,
+    board_contents VARCHAR(5000) NOT NULL,
+    board_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    board_count INT(16) NOT NULL DEFAULT 0,
+    user_number INT(16) NOT NULL,
+    FOREIGN KEY (user_number)
+        REFERENCES user (user_number),
+    FOREIGN KEY (board_type)
+        REFERENCES subject (sub_number)
+);
+
+CREATE TABLE comment (
+    board_number INT(16) NOT NULL,
+    comment_number INT(16) not null auto_increment PRIMARY KEY ,
+    contents VARCHAR(500) NOT NULL,
+    writer BOOLEAN NOT NULL,
+    comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_number INT(16) NOT NULL,
+    
+    FOREIGN KEY (user_number)
+        REFERENCES user (user_number),
+    FOREIGN KEY (board_number)
+        REFERENCES board (board_number)
+);
