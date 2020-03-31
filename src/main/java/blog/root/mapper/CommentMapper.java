@@ -11,14 +11,18 @@ import blog.root.model.CommentDTO;
 
 public interface CommentMapper {
 	
-	@Select("select * from comment where comment_number =#{comment_number}")
-	public List<CommentDTO> selectCommentList(@Param("comment_number")int comment_number) throws Exception;
-
-	@Insert("insert into comment(comment_number,contents,writer) values(#{comment_number},#{contents},#{writer})")
-	public int insertComment(@Param("comment_number")int comment_number,@Param("contents")String contents,@Param("writer")int writer) throws Exception;
-
-	@Delete("delete from comment where comment_number = #{comment_number}")
-	public void deleteAllComment(@Param("comment_number")int comment_number)throws Exception;
+	@Select("select comment.comment_date ,comment.comment_number,comment.contents,user.nickname,comment.writer " + 
+			 "from comment right outer join user " + 
+			 "on comment.user_number = user.user_number "
+			+" where board_number =#{board_number}")
+	public List<CommentDTO> selectCommentList(@Param("board_number")int board_number) throws Exception;
+	//게시물내 댓글 가져옴
+	
+	@Insert("insert into comment(board_number,contents,writer,user_number) values(#{board_number},#{contents},#{writer},#{user_number})")
+	public int insertComment(@Param("board_number")int board_number,@Param("contents")String contents,@Param("writer")int writer,@Param("user_number")int user_number) throws Exception;
+    //댓글 작성 
+	@Delete("delete from comment where board_number = #{board_number}")
+	public void deleteAllComment(@Param("board_number")int board_number)throws Exception;
 	//특정 게시글 댓글 전체 삭제 
 	
 }

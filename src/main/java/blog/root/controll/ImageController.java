@@ -48,7 +48,7 @@ public class ImageController {
 			UUID uuid=UUID.randomUUID();
 			uploadFileName=Time+"_"+uuid.toString()+service.imgType(uploadFileName);
 			
-			
+		
 			String uploadImageFile = path + uploadFileName;
 			
 			log.info("origName : "+multipartFile);

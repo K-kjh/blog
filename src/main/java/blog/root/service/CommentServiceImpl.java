@@ -17,15 +17,15 @@ public class CommentServiceImpl implements CommentService {
 	
 	
 	@Override
-	public List<CommentDTO> selectCommentList(int comment_number) throws Exception {
+	public List<CommentDTO> selectCommentList(int board_number) throws Exception {
 		// TODO Auto-generated method stub
-		return mapper.selectCommentList(comment_number);
+		return mapper.selectCommentList(board_number);
 	}
 
 	@Override
-	public int insertComment(int comment_number, String contents, int writer) throws Exception {
+	public int insertComment(int board_number, String contents, int writer,int user_number) throws Exception {
 		// TODO Auto-generated method stub
-		return mapper.insertComment(comment_number, contents, writer);
+		return mapper.insertComment(board_number, contents, writer, user_number);
 	}
 
 	public String solve(String str) {
@@ -53,8 +53,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void deleteAllComment(int comment_number) throws Exception {
-		mapper.deleteAllComment(comment_number);
+	public void deleteAllComment(int board_number) throws Exception {
+		mapper.deleteAllComment(board_number);
 	}
 
 }

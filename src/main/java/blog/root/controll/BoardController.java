@@ -89,8 +89,8 @@ public class BoardController {
 							imageservice.filemoveList
 							(boardService.GetContentsImageSrc(board_contents)
 							,board_contents);
-		
-		return boardService.Board_create(board_title, board_type, board_contents);
+		int user_number=0;
+		return boardService.Board_create(board_title, board_type, board_contents,user_number);
 		
 	}
 	
@@ -111,11 +111,12 @@ public class BoardController {
 		
 		log.info("contents"+board_contents);
 		board_contents=str;
-		
+
+		int user_number=0;
 		try {
 			
 			return boardService.
-					boardUpdate(board_contents, board_title, board_type, board_number);
+					boardUpdate(board_contents, board_title, board_type, board_number,user_number);
 			
 		} catch (Exception e) {
 			
@@ -132,8 +133,9 @@ public class BoardController {
 	
 		if(session.getAttribute("root") != null) {
 			try {
+				int user_number=0;
 				commentService.deleteAllComment(board_number);
-				return boardService.boardDelete(board_number);
+				return boardService.boardDelete(board_number,user_number);
 				 
 			} catch (Exception e) {
 				

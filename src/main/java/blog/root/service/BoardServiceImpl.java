@@ -29,8 +29,8 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.BoardCount(board_number);
 	}
 
-	public int Board_create(String board_title, int board_type, String board_contents) {
-		return boardMapper.Board_create(board_title, board_type, board_contents);
+	public int Board_create(String board_title, int board_type, String board_contents,int user_number) {
+		return boardMapper.Board_create(board_title, board_type, board_contents,user_number);
 	}
 
 	public int paging_max() {
@@ -55,15 +55,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int boardUpdate(String board_contents, String board_title, int board_type,int board_number) throws Exception {
-		return boardMapper.boardUpdate(board_contents, board_title, board_type,board_number);
+	public int boardUpdate(String board_contents, String board_title, int board_type,int board_number,int user_number) throws Exception {
+		return boardMapper.boardUpdate(board_contents, board_title, board_type,board_number,user_number);
 	}
 
 	@Override
-	public int boardDelete(int board_number)  {
+	public int boardDelete(int board_number,int user_number)  {
 		
 		try {
-			return boardMapper.boardDelete(board_number);
+			return boardMapper.boardDelete(board_number, user_number);
 		} catch (Exception e) {
 			return 0;
 		}
