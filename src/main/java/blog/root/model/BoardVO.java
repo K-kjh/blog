@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class BoardVO {
 
 	private List<UserDTO> userList;
-	
+
 	private int board_number;
 	private String board_title;
 	private int board_type;

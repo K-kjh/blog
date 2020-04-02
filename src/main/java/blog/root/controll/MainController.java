@@ -28,165 +28,161 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class MainController {
-	/* 처음 설계부분 완성 
-	 * 시즌 2 부터는 
-	 * 아래꺼 에서 반이상은 추가 
+	/*
+	 * 처음 설계부분 완성 시즌 2 부터는 아래꺼 에서 반이상은 추가
 	 * 
-	 * 시큐리티 로그인
-	 * api 네이버 로그인 s
-	 * 클라이드서비스에 올리기 
-	 * 구글 지도 가져오기 
-
-	 * ci/cd 쉘 스크립트짜서 자
-	 * 엑셀,pdf처리 동으로 되게 
-	 * 크롤링하실거면 크롤링주기는 어떨게 할것이며 저장은 어디에 할건지 
+	 * 시큐리티 로그인 api 네이버 로그인 s 클라이드서비스에 올리기 구글 지도 가져오기
+	 * 
+	 * ci/cd 쉘 스크립트짜서 자 엑셀,pdf처리 동으로 되게 크롤링하실거면 크롤링주기는 어떨게 할것이며 저장은 어디에 할건지
 	 * 
 	 * 
-	 * (auto-scale-out 인프라 설게 L4 fhem qoffjstj ekfdkenrh xmfovlr qnstks  ) 이건 뺴고 
+	 * (auto-scale-out 인프라 설게 L4 fhem qoffjstj ekfdkenrh xmfovlr qnstks ) 이건 뺴고
 	 * 
 	 */
-	
+
 	@Inject
 	private SubjectService subjectService;
-	
+
 	@Inject
 	private BoardService boardService;
-	
+
 	@Inject
 	private RootService rootService;
-	
-	
-	//page -------------------------------------------------------------------------------------------------------  start
-	
+
+	// page
+	// -------------------------------------------------------------------------------------------------------
+	// start
+
 	@GetMapping("/sub/{subject_type}")
-	public String pageup(@PathVariable int subject_type ,Model model ,HttpServletResponse res) throws Exception {
-		
-		if(subject_type == 0) {
+	public String pageup(@PathVariable int subject_type, Model model, HttpServletResponse res) throws Exception {
+
+		if (subject_type == 0) {
 			res.sendRedirect("/");
 		}
-		
-		int board_number_max=0;
-		
+
+		int board_number_max = 0;
+
 		try {
 			int board_number_max_is = boardService.paging_type_max(subject_type);
-			board_number_max=board_number_max_is;
-		}catch(Exception e) {}
-		
-		//게시물 최대값 
-		
-		int page_max =board_number_max/13;
-	
-		//페이지 최대값 
-		log.info("page sub : "+ page_max +"page_m");
-		
+			board_number_max = board_number_max_is;
+		} catch (Exception e) {
+		}
+
+		// 게시물 최대값
+
+		int page_max = board_number_max / 13;
+
+		// 페이지 최대값
+		log.info("page sub : " + page_max + "page_m");
+
 		List<SubjectVO> subList = subjectService.AllSubject();
-		List<BoardVO>  boardList = boardService.subtypeBoardList(subject_type, 0);
-		
-		
+		List<BoardVO> boardList = boardService.subtypeBoardList(subject_type, 0);
+
 		model.addAttribute("subject_type", subject_type);
-		model.addAttribute("page_max",page_max);
-		model.addAttribute("subList", subList );
-		model.addAttribute("boardList", boardList );
+		model.addAttribute("page_max", page_max);
+		model.addAttribute("subList", subList);
+		model.addAttribute("boardList", boardList);
 
 		return "main";
 	}
-	
+
 	@GetMapping("/sub/{subject_type}/page/{page}")
-	public String subpage(@PathVariable int subject_type, @PathVariable int page ,Model model ,HttpServletResponse res) throws Exception {
-		int board_number_max=0;
-		
+	public String subpage(@PathVariable int subject_type, @PathVariable int page, Model model, HttpServletResponse res)
+			throws Exception {
+		int board_number_max = 0;
+
 		try {
 			int board_number_max_is = boardService.paging_type_max(subject_type);
-			board_number_max=board_number_max_is;
-		}catch(Exception e) {
+			board_number_max = board_number_max_is;
+		} catch (Exception e) {
 			log.info("page:ere");
 		}
-		
-		//게시물 최대값 
-		int page_max=board_number_max/13;
-		
+
+		// 게시물 최대값
+		int page_max = board_number_max / 13;
+
 		List<SubjectVO> subList = subjectService.AllSubject();
-		List<BoardVO>  boardList = boardService.subtypeBoardList(subject_type, page*13);
-		
+		List<BoardVO> boardList = boardService.subtypeBoardList(subject_type, page * 13);
 
 		model.addAttribute("subject_type", subject_type);
-		model.addAttribute("page_max",page_max);
-		model.addAttribute("subList", subList );
-		model.addAttribute("boardList", boardList );
-		
+		model.addAttribute("page_max", page_max);
+		model.addAttribute("subList", subList);
+		model.addAttribute("boardList", boardList);
+
 		return "main";
 	}
-	
+
 	@GetMapping("/page/{page}")
-	public String mainpage(@PathVariable int page,Model model) throws Exception {
+	public String mainpage(@PathVariable int page, Model model) throws Exception {
 		log.info("page ----------------------------------------------------------...");
 		int board_number_max = boardService.paging_max();
-		//게시물 최대값 
-		
-		int page_max =board_number_max/13;
-		log.info("page_max"+page_max+" , "+board_number_max);
-		//페이지 최대값 
+		// 게시물 최대값
 
-		if(page  >= page_max) {
-			// 끝물 페이지는 값을 전달하지 못함 만약 0, 1, 2 ,3 
+		int page_max = board_number_max / 13;
+		log.info("page_max" + page_max + " , " + board_number_max);
+		// 페이지 최대값
+
+		if (page >= page_max) {
+			// 끝물 페이지는 값을 전달하지 못함 만약 0, 1, 2 ,3
 			log.info("-");
-			
-		} 
+
+		}
 
 		List<SubjectVO> subList = subjectService.AllSubject();
-		List<BoardVO>  boardList = boardService.mainBoardList((page*13));
-		model.addAttribute("page",page);
-		model.addAttribute("page_max",page_max);
-		model.addAttribute("subList", subList );
-		model.addAttribute("boardList", boardList );
+		List<BoardVO> boardList = boardService.mainBoardList((page * 13));
+		model.addAttribute("page", page);
+		model.addAttribute("page_max", page_max);
+		model.addAttribute("subList", subList);
+		model.addAttribute("boardList", boardList);
 		return "main";
-		
+
 	}
-	//page ------------------------------------------------------------------------------------------------------ end 
+
+	// page
+	// ------------------------------------------------------------------------------------------------------
+	// end
 	@PostMapping("/root")
-	public void rootlogin( String pwd,HttpSession session,HttpServletResponse res) throws Exception {
-		log.info("pwd. :"+pwd);
-		
+	public void rootlogin(String pwd, HttpSession session, HttpServletResponse res) throws Exception {
+		log.info("pwd. :" + pwd);
+
 		try {
-			if(rootService.lootlogin(pwd) == 1) {
+			if (rootService.lootlogin(pwd) == 1) {
 				session.setAttribute("root", true);
-				
+
 			}
-		}catch(Exception e) {
-			
+		} catch (Exception e) {
+
 		}
 		res.sendRedirect("/");
 	}
-	
+
 	@GetMapping("/root/logout")
-	public void rootlogout(HttpSession session,HttpServletResponse res) throws Exception {
+	public void rootlogout(HttpSession session, HttpServletResponse res) throws Exception {
 		session.removeAttribute("root");
 		res.sendRedirect("/");
 	}
-	
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String main(Locale locale, Model model,HttpSession session) throws Exception {
+	public String main(Locale locale, Model model, HttpSession session) throws Exception {
 
 		int board_number_max = boardService.paging_max();
-		//게시물 최대값 
-		
-		int page_m =board_number_max/13;
-		int page_max= board_number_max%13 > 0 ? 1 : 0; 
-		page_max +=page_m;
-		//페이지 최대값 
-		//왼쪽 이 13씩 올라감
+		// 게시물 최대값
+
+		int page_m = board_number_max / 13;
+		int page_max = board_number_max % 13 > 0 ? 1 : 0;
+		page_max += page_m;
+		// 페이지 최대값
+		// 왼쪽 이 13씩 올라감
 		log.info("magin re load");
 		List<SubjectVO> subList = subjectService.AllSubject();
-		List<BoardVO>  boardList = boardService.mainBoardList(0);
-		
+		List<BoardVO> boardList = boardService.mainBoardList(0);
 
-		model.addAttribute("page",0);
-		model.addAttribute("page_max",page_max-1);
-		model.addAttribute("subList", subList );
-		model.addAttribute("boardList", boardList );
-		
+		model.addAttribute("page", 0);
+		model.addAttribute("page_max", page_max - 1);
+		model.addAttribute("subList", subList);
+		model.addAttribute("boardList", boardList);
+
 		return "main";
 	}
-	
+
 }

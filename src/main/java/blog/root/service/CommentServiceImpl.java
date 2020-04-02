@@ -14,8 +14,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Inject
 	private CommentMapper mapper;
-	
-	
+
 	@Override
 	public List<CommentDTO> selectCommentList(int board_number) throws Exception {
 		// TODO Auto-generated method stub
@@ -23,33 +22,32 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int insertComment(int board_number, String contents, int writer,int user_number) throws Exception {
+	public int insertComment(int board_number, String contents, int writer, int user_number) throws Exception {
 		// TODO Auto-generated method stub
 		return mapper.insertComment(board_number, contents, writer, user_number);
 	}
 
 	public String solve(String str) {
-		
-		
-		int count=0;
-		String comment="";
-		for(int i=0;i<str.length();i++) {
-			
-			if(str.charAt(i) == '\n') {
-				count=0;
+
+		int count = 0;
+		String comment = "";
+		for (int i = 0; i < str.length(); i++) {
+
+			if (str.charAt(i) == '\n') {
+				count = 0;
 			}
-			
-			if(count>=95) {
-				comment+='\n';
-				count=0;
-			}else {
-				comment+=str.charAt(i);
+
+			if (count >= 95) {
+				comment += '\n';
+				count = 0;
+			} else {
+				comment += str.charAt(i);
 			}
 			count++;
 		}
-		
+
 		return comment;
-		
+
 	}
 
 	@Override

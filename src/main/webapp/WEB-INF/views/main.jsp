@@ -1,5 +1,5 @@
 <%@page import="org.springframework.web.bind.annotation.SessionAttributes"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page  language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" session="false" %>
 <%@ page import="blog.root.model.SubjectVO,java.util.List,blog.root.model.BoardVO,javax.servlet.http.HttpSession" %>
 <html>

@@ -6,5 +6,6 @@ import blog.root.model.SubjectVO;
 
 public interface SubjectService {
 	public abstract List<SubjectVO> SubjectName() throws Exception;
-	public List<SubjectVO>AllSubject() throws Exception;
+
+	public List<SubjectVO> AllSubject() throws Exception;
 }

@@ -8,5 +8,5 @@ import lombok.Data;
 public class Login_HistoryDTO {
 	private int user_number;
 	private Timestamp login_date;
-	
+
 }
