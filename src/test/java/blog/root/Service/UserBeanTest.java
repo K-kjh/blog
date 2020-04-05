@@ -1,10 +1,13 @@
 package blog.root.Service;
 
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import blog.root.service.Login_HistoryService;
 import blog.root.service.UserService;
@@ -15,11 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @ContextConfiguration(locations={
 		"file:src/main/webapp/WEB-INF/spring/root-context.xml",
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
+@WebAppConfiguration
 public class UserBeanTest {
-//	
-//	@Autowired
-//	private UserService user;
-//	private Login_HistoryService login;
+	
+	@Inject
+	private UserService user;
+	
+	//private Login_HistoryService login;
 //	
 //	
 //	@Test
@@ -62,31 +67,46 @@ public class UserBeanTest {
 //		}
 //	}
 //	
-//	@Test
-//	public void nicknameCheck() {
-//		try {
-//			log.info("------------"+user.nicknameCheck("강정"));
-//			if(user.nicknameCheck("강정")!= null) {
-//				log.info("닉네임 있음");
-//			}else {
-//				log.info("닉네임 없음 -------------------------------------------");
-//			}
-//		} catch (Exception e) {
-//
-//			log.info("닉네임 없음");
-//		}
-//	}
-//	
-//	@Test
-//	public void emailCheck() {
-//		try {
-//			user.emailCheck("kgh2252@naver.com");
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//	
+	@Test
+	public void nicknameCheck() {
+		try {
+			log.info("------------"+user.nicknameCheck("강정"));
+			if(user.nicknameCheck("강정")!= null) {
+				log.info("닉네임 있음");
+			}else {
+				log.info("닉네임 없음 -------------------------------------------");
+			}
+		} catch (Exception e) {
+
+			log.info("닉네임 없음");
+		}
+	}
+	
+	@Test
+	public void emailCheck() {
+		try {
+			String email=user.emailCheck("kgh22522@naver.com");
+			
+			if(email != null)	{
+				log.info("hello++++++++++++++++++++");
+				log.info("hello++++++++++++++++++++");
+				log.info("hello++++++++++++++++++++");
+				log.info("hello++++++++++++++++++++");
+				log.info("hello++++++++++++++++++++");
+			}else {
+				log.info("---------------");
+				log.info("---------------");
+				log.info("---------------");
+				log.info("---------------");
+				log.info("---------------");
+				log.info("---------------");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 //	
 //	
 //	

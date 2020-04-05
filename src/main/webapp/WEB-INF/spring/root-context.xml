@@ -64,8 +64,5 @@
 	  </property>
    </bean>
 	 
-<!-- 	 <bean id="somNotifier" class="">
-	 	<property name="mailSender" ref="mailSender" />
-	 </bean>  -->
 		
 </beans>

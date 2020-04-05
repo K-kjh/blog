@@ -16,13 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MailController {
 	
 	@Inject
-	MailSenderService mail;
+	 MailSenderService mail;
 	
-	public MailDTO mailDTO=null;
+	 MailDTO mailDTO=null;
 	
-	@PostMapping("/login/emailsend")
+	@PostMapping("/singup/emailsend")
 	@ResponseBody
 	public void emailsend(String email) {
+		
 		log.info(" mail : "+email);
 		MailDTO maildto = new MailDTO();
 		maildto.setEmail(email);
@@ -34,7 +35,7 @@ public class MailController {
 	
 	}
 	
-	@PostMapping("/login/emailCertifi")
+	@PostMapping("/singup/emailCertifi")
 	@ResponseBody
 	public int emailCertifi(int certificationNumber) {
 		log.info("인증 번호 입렭 : "+certificationNumber);

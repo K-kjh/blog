@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 
 public interface UserMapper {
 
-	@Insert("insert into user(id,pw,email,nickname) values(#{id},#{pw}',#{email},#{nickname})")
+	@Insert("insert into user(id,pw,email,nickname) values(#{id},#{pw},#{email},#{nickname})")
 	public int Singup(@Param("id") String id, @Param("pw") String pw, @Param("email") String email,
 			@Param("nickname") String nickname) throws Exception;
 	// 회원 가입
@@ -23,8 +23,8 @@ public interface UserMapper {
 	public String idCheck(String id) throws Exception;
 	// 아이디 조회
 
-	@Select("select email from user where email=#{email}")
-	public String emailCheck(String email) throws Exception;
+	@Select("select email from user where email= #{email} ")
+	public String emailCheck(@Param("email")String email) throws Exception;
 	// 이메일 조회
 
 }
