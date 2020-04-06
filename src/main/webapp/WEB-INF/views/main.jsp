@@ -1,5 +1,6 @@
 <%@page import="org.springframework.web.bind.annotation.SessionAttributes"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page  language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" session="false" %>
 <%@ page import="blog.root.model.SubjectVO,java.util.List,blog.root.model.BoardVO,javax.servlet.http.HttpSession" %>
 <html>
@@ -8,6 +9,8 @@
 	<!-- 합쳐지고 최소화된 최신 CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
 	<!-- 부가적인 테마 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	
@@ -15,40 +18,50 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
 <div style="height: 100px;width: 1650px;">
+
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 	<form action="/about" method="get">
 	<button  style="
-			margin-left: 1550px;
+			margin-left: 1450px;
 	   	 	width: 150px;
 	    	height: 50px;"type="submit" class="btn btn-secondary btn-lg">About</button>
 	</form>
+
+  <div class="btn-group" role="group" style="height: 50px;
+    width: 100px;">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 50px;width: 100px;">
+       계정
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+    	<sec:authorize access="isAnonymous()">
+     	 	<a class="dropdown-item" href="/login"> 로그인 </a>
+    	</sec:authorize>
+    	<sec:authorize access="isAuthenticated()">
+	      <a class="dropdown-item" href="/logout">logout</a>
+	      <a class="dropdown-item" href="/account">계정 정보</a>
+    	</sec:authorize>
+      
+    </div>
+  </div>
+</div>
+
+
 </div>
 
 <div style="width:1700px;height:650px;">
 
 	<div  style="width:200px;height:650px;float:left; ">
-		<div  style="width:185px;height:110px;float:left;padding-top:20px;margin-left:5px;
-						background-color:whitesmoke;border-color:black;">
-			<%HttpSession session = request.getSession(); %>
-			<%if(session.getAttribute("root") == null){ %>
-				<div>
-					<form action="/root" method="post" style="margin-left:15px;">
-						관리자 비밀번호 :<input name="pwd" id="pwd" type="password" style="width:150px; margin-left:5px;">
-					</form>
-				</div>
-			<%}else{ %>
-				<div style="width:100px;height:45px;margin-left:27px;">
-					<form action="/root/logout" method="get" style="padding-top:10px;">
-						<input class="btn btn-default" type="submit" value="방문자로 전환" style="width:130px;height:52px;">
-					</form>
-				</div>
-			<%} %>
-		</div> 
+
 	</div>
-	
+	<%HttpSession session = request.getSession(); %>
 	<div class="btn-group" role="group" aria-label="Basic example" style="width:1500px;height:50px;float:left; ">
 	<%List<SubjectVO> subjects =(List<SubjectVO>) request.getAttribute("subList");%>
 	
