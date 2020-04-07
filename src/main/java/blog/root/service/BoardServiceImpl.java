@@ -18,6 +18,7 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper boardMapper;
 
 	public BoardDTO selectBoardList(int board_number) throws Exception {
+		
 		return boardMapper.selectBoardList(board_number);
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import blog.root.service.UserService;
+import blog.root.service.User_authService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -16,6 +17,8 @@ public class SingupController {
 
 	@Inject
 	private UserService user;
+	@Inject
+	private User_authService user_auth;
 	
 	@GetMapping(value = "/singup")
 	public String singup() {
@@ -28,6 +31,7 @@ public class SingupController {
 		log.info("id : "+id+" pw: "+pw +" email : "+ email +" nickname : "+ nickname);
 		try {
 			user.Singup(id, pw, email, nickname);
+			user_auth.userauth_insert(user.getUser_number(id));
 			return 1;
 		} catch (Exception e) {;;	}
 		

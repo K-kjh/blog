@@ -29,14 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MainController {
 	/*
-	 * 처음 설계부분 완성 시즌 2 부터는 아래꺼 에서 반이상은 추가
+	 * 처음 설계부분 완성 
 	 * 
 	 * 시큐리티 로그인 api 네이버 로그인 s 클라이드서비스에 올리기 구글 지도 가져오기
 	 * 
 	 * ci/cd 쉘 스크립트짜서 자 엑셀,pdf처리 동으로 되게 크롤링하실거면 크롤링주기는 어떨게 할것이며 저장은 어디에 할건지
-	 * 
-	 * 
-	 * (auto-scale-out 인프라 설게 L4 fhem qoffjstj ekfdkenrh xmfovlr qnstks ) 이건 뺴고
 	 * 
 	 */
 
@@ -174,9 +171,11 @@ public class MainController {
 		// 페이지 최대값
 		// 왼쪽 이 13씩 올라감
 		log.info("magin re load");
+		
+		
 		List<SubjectVO> subList = subjectService.AllSubject();
 		List<BoardVO> boardList = boardService.mainBoardList(0);
-
+		
 		model.addAttribute("page", 0);
 		model.addAttribute("page_max", page_max - 1);
 		model.addAttribute("subList", subList);

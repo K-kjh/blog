@@ -35,6 +35,8 @@ public class LoginController {
 	
 		return "main";
 	}
+	
+	
 	@GetMapping("/logout")
 	public void logoutGet() {
 		log.info("custom logout");

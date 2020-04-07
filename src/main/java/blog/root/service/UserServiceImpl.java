@@ -2,9 +2,11 @@ package blog.root.service;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.mapping.ResultMap;
 import org.springframework.stereotype.Service;
 
 import blog.root.mapper.UserMapper;
+import blog.root.model.UserDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,6 +40,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String emailCheck(String email) throws Exception {
 		return mapper.emailCheck(email);
+	}
+
+	@Override
+	public int getUser_number(String id) {
+		return mapper.getUser_number(id);
+	}
+
+	@Override
+	public UserDTO read(String id) {
+		
+		return mapper.read(id);
 	}
 
 }

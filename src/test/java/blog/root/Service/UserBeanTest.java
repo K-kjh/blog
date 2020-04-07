@@ -1,44 +1,84 @@
 package blog.root.Service;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import blog.root.service.Login_HistoryService;
+import blog.root.mapper.UserMapper;
+import blog.root.model.UserDTO;
 import blog.root.service.UserService;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={
 		"file:src/main/webapp/WEB-INF/spring/root-context.xml",
-		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
+		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 @WebAppConfiguration
 public class UserBeanTest {
 	
 	@Inject
 	private UserService user;
 	
+	@Setter(onMethod_ = @Autowired)
+	private UserMapper mapper;
+	
+	@Setter(onMethod_ =@Autowired)
+	private PasswordEncoder pwencoder;
+	
+	@Test
+	public void read() {
+		String id="kgh2252";
+		
+		UserDTO userdto = user.read(id);
+		log.info(""+userdto.getAuthList());
+		userdto.getAuthList().forEach(User_authDTO -> log.info(""+User_authDTO));
+		
+	}
+	
+//	@Test
+//	public void testInsertuser() {
+//		String id="kgh2222";
+//		String pw="akzm12";
+////		String email="kgh2252@gmail.com";
+////		String nickname="asdfff";
+//
+//		pw=pwencoder.encode(pw);
+//		log.info("pw :"+pw);
+//		
+//	}
+	
 	//private Login_HistoryService login;
 //	
 //	
 //	@Test
 //	public void singup() {
-//		String id="test1";
-//		String pw="tset1";
-//		String email="test1";
-//		String nickname="test1";
+//		String id="kgh2252";
+//		String pw="akzm12";
+//		String email="kgh9468@gmail.com";
+//		String nickname="kgh9468";
 //		
 //		try {
-//			user.Singup(id, pw, email, nickname) ;
+//			for(int i=10;i<20;i++) {
+//
+//				user.Singup(id+""+i, pwencoder.encode(pw), email+""+i, nickname+""+i) ;
+//			}
 //		} catch (Exception e) {
 //		}
 //	}
+//	
+	
 //	
 //	@Test
 //	public void login() {
@@ -46,9 +86,9 @@ public class UserBeanTest {
 //		String pw="akzm12";
 //		
 //		try {
-//			if(user.Login(id, pw) != 0) {
+//			if(user.Login(id, pwencoder.encode(pw)) != 0) {
 //				log.info("로그인 성공");
-//				login.loginTimeCheck(user.Login(id, pw));
+//				
 //			}else {
 //			}
 //		} catch (Exception e) {
@@ -67,46 +107,46 @@ public class UserBeanTest {
 //		}
 //	}
 //	
-	@Test
-	public void nicknameCheck() {
-		try {
-			log.info("------------"+user.nicknameCheck("강정"));
-			if(user.nicknameCheck("강정")!= null) {
-				log.info("닉네임 있음");
-			}else {
-				log.info("닉네임 없음 -------------------------------------------");
-			}
-		} catch (Exception e) {
-
-			log.info("닉네임 없음");
-		}
-	}
-	
-	@Test
-	public void emailCheck() {
-		try {
-			String email=user.emailCheck("kgh22522@naver.com");
-			
-			if(email != null)	{
-				log.info("hello++++++++++++++++++++");
-				log.info("hello++++++++++++++++++++");
-				log.info("hello++++++++++++++++++++");
-				log.info("hello++++++++++++++++++++");
-				log.info("hello++++++++++++++++++++");
-			}else {
-				log.info("---------------");
-				log.info("---------------");
-				log.info("---------------");
-				log.info("---------------");
-				log.info("---------------");
-				log.info("---------------");
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
+//	@Test
+//	public void nicknameChe)ck() {
+//		try {
+//			log.info("------------"+user.nicknameCheck("강정"));
+//			if(user.nicknameCheck("강정")!= null) {
+//				log.info("닉네임 있음");
+//			}els)e {
+//				log.info("닉네임 없음 -------------------------------------------");
+//			}
+//		} catch (Exception e) {
+//
+//			log.info("닉네임 없음");
+//		}
+//	}
+//	
+//	@Test
+//	public void emailCheck() {
+//		try {
+//			String email=user.emailCheck("kgh22522@naver.com");
+//			
+//			if(email != null)	{
+//				log.info("hello++++++++++++++++++++");
+//				log.info("hello++++++++++++++++++++");
+//				log.info("hello++++++++++++++++++++");
+//				log.info("hello++++++++++++++++++++");
+//				log.info("hello++++++++++++++++++++");
+//			}else {
+//				log.info("---------------");
+//				log.info("---------------");
+//				log.info("---------------");
+//				log.info("---------------");
+//				log.info("---------------");
+//				log.info("---------------");
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//	
 //	
 //	
 //	

@@ -14,14 +14,14 @@
 	<!-- 부가적인 테마 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -83,7 +83,8 @@
 	    
 	      <th scope="col">#</th>
 	      <th scope="col">제목</th>
-	      <th scope="col">작성일</th>
+	      <th scope="col" style="text-align: right;">작성일</th>
+	      <th scope="col">닉네임</th>
 	      <th scope="col">조회수</th>
 	      
 	    </tr>
@@ -97,6 +98,7 @@
 		      <th scope="row" ><%=board.getBoard_number() %></th>
 		      <td><%=board.getBoard_title() %></td>
 		      <td><%=board.getBoard_date() %></td>
+		      <td><%=board.getNickname() %></td>
 		      <td><%=board.getBoard_count() %></td>
 		    </tr>
 		   <%} %>
@@ -136,7 +138,8 @@
 
 </div>
 </body>
-<script>
+1
+<script type="text/javascript">
     var click_board;
 	 var page=<%=request.getAttribute("page")%>;
 	 var subject =<%= request.getAttribute("subject_type") %>;
@@ -211,15 +214,13 @@
 	    click_board=$(this).attr("value");
 	    console.log(click_board+" 요거"+$(this).val() +" ,"+$(this).attr("value"));
 	    	
-	    var query = { 
-	         board_count : click_board
-	     };
 	    $.ajax({
 			url :"/board/count",
 			type: "PUT",
-			data : query,
+			data : {  board_count : click_board  },
 			success : function(data){}
 		}); //ajax -end
+		
 	   location.href="/board/"+click_board;
 			
     });  

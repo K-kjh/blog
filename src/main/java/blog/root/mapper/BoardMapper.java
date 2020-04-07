@@ -58,7 +58,6 @@ public interface BoardMapper {
 	@Select("select board_number,board_title,board_date,board_count,user.nickname "
 			+ " from board join user on board.user_number = user.user_number "
 			+ " order by board_number desc limit #{paging_number},13")
-	@ResultType(BoardVO.class)
 	public List<BoardVO> mainBoardList(@Param("paging_number") int paging_number) throws Exception;
 	// 게시판 내용,게시판 타입 뺴고 전부
 }

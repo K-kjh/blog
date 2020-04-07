@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BoardVO {
+public class BoardVO extends UserDTO{
 
 	private List<UserDTO> userList;
 

@@ -1,6 +1,5 @@
 package blog.root.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import lombok.Data;
 @Data
 public class BoardDTO {
 	private List<UserDTO> userList;
+
 
 	private int board_number;
 	private String board_title;
