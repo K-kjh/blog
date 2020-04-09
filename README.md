@@ -1,6 +1,11 @@
-# blog
--리눅수(우분투) 사용
-
+# blog                    
+개발 환경                       |
+-리눅수(우분투) 사용,             |
+-spring framework 5(maven)    |
+-서버 : tomcat                 |
+-db :mysql                    |
+-사용언어 : java                |
+-------------------------------
 -CRUD 구현
 
 -게시글 작성 이미지 drag&drop & 파일 으로 이미지 미리보기 
