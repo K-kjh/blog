@@ -20,6 +20,12 @@
 
 </head>
 <body>
+<div>
+	<form method="get" action="/">
+		<button id="main"type="button" class="btn btn-secondary" style="margin:7px;">main</button>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }"/>
+	</form>
+</div>
 <div style=" width: 100%; height: 800px;">
 	<div style="background-color: #e8e6e6;
     width: 600px;
@@ -55,6 +61,9 @@
 </div>
 </body>
 <script type="text/javascript">
+	$('#main').click(function(){
+		self.location="/";
+	});
 </script>
 
 </html>

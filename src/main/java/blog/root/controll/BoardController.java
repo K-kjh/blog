@@ -72,22 +72,24 @@ public class BoardController {
 
 	@PostMapping(value = "/board/addboard/create")
 	@ResponseBody
-	public int boardCreate(String board_title, String board_contents, int board_type) {
-		log.info(" title : " + board_title + "\ncontents : " + board_contents + " , \nboard_type" + board_type);
+	public int boardCreate(String board_title, String board_contents, int board_type,int user_number) {
+		log.info("user_number"+user_number+" title : " + board_title + "\ncontents : " + board_contents + " , \nboard_type" + board_type);
 		board_title.replace("\t", "");
 		board_contents = board_contents.replace("&gt;", ">");
 		board_contents = board_contents.replace("&lt;", "<");
 		board_contents = board_contents.replace("&amp;", "&");
 
 		board_contents = imageservice.filemoveList(boardService.GetContentsImageSrc(board_contents), board_contents);
-		int user_number = 0;
+		if(user_number ==0 ) {
+			return 0;
+		}
 		return boardService.Board_create(board_title, board_type, board_contents, user_number);
 
 	}
 
 	@PutMapping(value = "/board/{board_number}/update")
 	@ResponseBody
-	public int boardUpdate(@PathVariable int board_number, String board_title, String board_contents, int board_type) {
+	public int boardUpdate(@PathVariable int board_number, String board_title, String board_contents, int board_type,int user_number) {
 		String str;
 		log.info("title" + board_title);
 		log.info("contents" + board_contents);
@@ -103,7 +105,6 @@ public class BoardController {
 		log.info("contents" + board_contents);
 		board_contents = str;
 
-		int user_number = 0;
 		try {
 
 			return boardService.boardUpdate(board_contents, board_title, board_type, board_number, user_number);
@@ -119,17 +120,15 @@ public class BoardController {
 
 	@DeleteMapping(value = "/board/{board_number}/delete")
 	@ResponseBody
-	public int boardDelete(@PathVariable int board_number, HttpSession session) {
-		log.info("board_delete ::------------------" + board_number);
+	public int boardDelete(@PathVariable int board_number,int user_number,HttpSession session) {
+		log.info("board_delete ::------------------" + board_number+", user_number: ---------"+user_number);
 
 		if (session.getAttribute("root") != null) {
 			try {
-				int user_number = 0;
 				commentService.deleteAllComment(board_number);
 				return boardService.boardDelete(board_number, user_number);
-
 			} catch (Exception e) {
-
+				log.info("delete-------------------- no nono no non o");
 			}
 		}
 

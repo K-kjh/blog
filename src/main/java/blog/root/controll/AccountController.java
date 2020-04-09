@@ -38,11 +38,6 @@ public class AccountController {
 				if(root.lootlogin(pwd) !=0) {
 					user_auth.userauth_insert_admin(user_number);
 				}
-			
-			
-			
-			
-			
 		} catch (Exception e) {;;	}
 		
 		return 0;

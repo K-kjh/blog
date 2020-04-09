@@ -30,9 +30,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login" )
-	public String postLogin(String username,String pw) {
-		log.info("username : "+username +" , pw: "+pw);
-	
+	public String postLogin() {
 		return "main";
 	}
 	

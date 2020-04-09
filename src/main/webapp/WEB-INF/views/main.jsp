@@ -118,15 +118,11 @@
 			  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 			</button>
 		</div>
-		
-		<% if(session.getAttribute("root") != null){ %>
-		<div style="margin-left:723px;float:left;">
-			<button id ="board_add" type="button" class="btn btn-success btn-lg">글쓰기</button>
-		</div>
-		<%}else{ %>
-		
-		<%} %>
-	
+		<sec:authorize access="isAuthenticated()">
+			<div style="margin-left:723px;float:left;">
+				<button id ="board_add" type="button" class="btn btn-success btn-lg">글쓰기</button>
+			</div>
+		</sec:authorize>
 	
 	</div>
 

@@ -62,14 +62,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int boardDelete(int board_number, int user_number) {
-
-		try {
-			boardMapper.boardDelete(board_number, user_number);
-		} catch (Exception e) {
-
-		}
-		return 0;
+	public int boardDelete(int board_number, int user_number) throws Exception {
+		return boardMapper.boardDelete(board_number, user_number);
 	}
 
 	public ArrayList<String> GetContentsImageSrc(String src) {

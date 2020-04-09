@@ -16,6 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import blog.root.mapper.UserMapper;
 import blog.root.model.UserDTO;
 import blog.root.service.UserService;
+import blog.root.service.User_authService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,28 +32,32 @@ public class UserBeanTest {
 	@Inject
 	private UserService user;
 	
+	@Inject
+	private User_authService user_auth;
+	
 	@Setter(onMethod_ = @Autowired)
 	private UserMapper mapper;
 	
 	@Setter(onMethod_ =@Autowired)
 	private PasswordEncoder pwencoder;
 	
-	@Test
-	public void read() {
-		String id="kgh2252";
-		
-		UserDTO userdto = user.read(id);
-		log.info(""+userdto.getAuthList());
-		userdto.getAuthList().forEach(User_authDTO -> log.info(""+User_authDTO));
-		
-	}
+	
+//	@Test
+//	public void read() {
+//		String id="kgh2252";
+//		
+//		UserDTO userdto = user.read(id);
+//		log.info(""+userdto.getAuthList());
+//		userdto.getAuthList().forEach(User_authDTO -> log.info(""+User_authDTO));
+//		
+//	}
 	
 //	@Test
 //	public void testInsertuser() {
 //		String id="kgh2222";
 //		String pw="akzm12";
-////		String email="kgh2252@gmail.com";
-////		String nickname="asdfff";
+//		String email="kgh222522252@gmail.com";
+//		String nickname="test2";
 //
 //		pw=pwencoder.encode(pw);
 //		log.info("pw :"+pw);
@@ -60,24 +65,22 @@ public class UserBeanTest {
 //	}
 	
 	//private Login_HistoryService login;
-//	
-//	
-//	@Test
-//	public void singup() {
-//		String id="kgh2252";
-//		String pw="akzm12";
-//		String email="kgh9468@gmail.com";
-//		String nickname="kgh9468";
-//		
-//		try {
-//			for(int i=10;i<20;i++) {
-//
-//				user.Singup(id+""+i, pwencoder.encode(pw), email+""+i, nickname+""+i) ;
-//			}
-//		} catch (Exception e) {
-//		}
-//	}
-//	
+	
+	
+	@Test
+	public void singup() {
+		String id="kgh22";
+		String pw="akzm12";
+		String email="kgh2252225222@gmail.com";
+		String nickname="2nkgh22522252";
+		
+		try {
+				user.Singup(id, pwencoder.encode(pw), email, nickname) ;
+			//	user_auth.userauth_insert(user.getUser_number(id));
+		} catch (Exception e) {
+		}
+	}
+	
 	
 //	
 //	@Test

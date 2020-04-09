@@ -1,15 +1,22 @@
 package blog.root.Service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import blog.root.model.BoardDTO;
 import blog.root.model.BoardVO;
+import blog.root.model.CommentDTO;
 import blog.root.model.UserDTO;
 import blog.root.service.BoardService;
 import blog.root.service.CommentService;
@@ -25,33 +32,52 @@ public class BoardBeanTest {
 	
 	@Autowired
 	private BoardService board;
+	
+	@Inject
 	private CommentService comment;
 	
-	
-	
 	@Test
-	public void boardList() {
-		int page =0;
-		log.info("-----------------------");
-		log.info("-----------------------");
-		log.info("-----------------------");
-		log.info("-----------------------");
-		log.info("-----------------------");
-		log.info("-----------------------");
-		log.info("-----------------------");
-		log.info("-----------------------");
+	public void comment() {
+
+		int board_number=1;
+//		String contents="test1";
+//		int user_number=1;
 		try {
-			
-		List<BoardVO> boardList = board.mainBoardList(0);
-		log.info("-");
-		for(BoardVO board:boardList) {
-			log.info("name : "+board.getNickname());
-		}
-		}catch(Exception e) {
-			log.info("+++++++++++++++====");
-		}
+			List<CommentDTO> dto = comment.selectCommentList(board_number);
+//			dto.getUser_authList().forEach( auth -> log.info("auth :"+auth));
+			dto.forEach(userauth ->userauth.getUser_authList().forEach(auth -> log.info(" auth :"+auth.getAuth())));
+		} catch (Exception e) {;;}
+		
+//		try {
+//			comment.insertComment(board_number, contents, user_number);
+//		} catch (Exception e) {;;}
 		
 	}
+	
+	
+//	@Test
+//	public void boardList() {
+//		int page =0;
+//		log.info("-----------------------");
+//		log.info("-----------------------");
+//		log.info("-----------------------");
+//		log.info("-----------------------");
+//		log.info("-----------------------");
+//		log.info("-----------------------");
+//		log.info("-----------------------");
+//		log.info("-----------------------");
+//		try {
+//			
+//		List<BoardVO> boardList = board.mainBoardList(0);
+//		log.info("-");
+//		for(BoardVO board:boardList) {
+//			log.info("name : "+board.getNickname());
+//		}
+//		}catch(Exception e) {
+//			log.info("+++++++++++++++====");
+//		}
+//		
+//	}
 	
 //	@Test
 //	public void Board() {
@@ -86,7 +112,7 @@ public class BoardBeanTest {
 //		
 //		try {
 //			
-//			//board.boardUpdate(board_contents, board_title, board_type, board_number, user_number);
+//			//board.boardUpdate(board_contents, board_title, board_type, board_number, user_nu)mber);
 //			
 //			//게시글을 지울떄는 해당 게시글 댓글전부를 제거후 게시물제거
 //			//comment.deleteAllComment(board_number);

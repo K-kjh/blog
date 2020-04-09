@@ -20,7 +20,12 @@
 
 </head>
 <body>
-
+<div>
+	<form method="get" action="/">
+		<button id="main"type="button" class="btn btn-secondary" style="margin:7px;">main</button>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }"/>
+	</form>
+</div>
 <div style="width: 1100px;  height: 1070px; background-color: white; margin-top: 100px;   margin-left: 300px; box-shadow: 5px 5px 5px 5px grey; border: 1px solid;" >
 
 <form class="form-horizontal">
@@ -627,7 +632,9 @@ var isagre2=false;
     });
 	
     //
-
+	$('#main').click(function(){
+		self.location="/";
+	});
 </script>
 
 </html>

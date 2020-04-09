@@ -4,6 +4,8 @@
 "java.util.List,
  blog.root.model.BoardDTO,
  blog.root.model.SubjectVO" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
  <%request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
 <html>
@@ -50,6 +52,10 @@
 
 <body>
 <br/>
+<form method="get" action="/">
+		<button id="main"type="button" class="btn btn-secondary" style="margin:7px;">main</button>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }"/>
+	</form>
 <div style="width:1700px;height:800px;">
 
 	<!--사이드 바  -->
@@ -140,7 +146,8 @@
 	
 	var board_number="<%=request.getAttribute("update_board_number") %>";
   	var board_title=" <%=request.getAttribute("update_board_title") %>";
-  	
+  	var csrfHeaderName="${_csrf.headerName}";
+  	var csrfTokenValue="${_csrf.token}";
 	/* 이미지 업로드  */
   	$('#image_file').click(function(){
   		dtime=d.getTime();
@@ -183,6 +190,9 @@
 			url:'/uploads',
 			processData: false,
 			contentType: false,
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+			},
 			data: formData,
 			type: 'POST',
 			success: function(result){
@@ -204,16 +214,18 @@
 		console.log("html 변환 : "+contents);
 
 
-	   	 var query = { 
-	                board_title : $('#board_title').html() , board_contents : contents, board_type : subtype
-	    };
-	   
-	   	 console.log(" :"+$('#subtype').val() +" , "+ subtype);
+	   	console.log(" :"+$('#subtype').val() +" , "+ subtype);
+	   	
+	   	var user_number=0;
+		if(${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.user_number}+"" != "" ){
+			 	user_number=${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.user_number}+"";
+		}
+		
 	   	$.ajax({
 				url :"/board/"+board_number+"/update" ,
 				type: "put",
-				data : query,
-				   success : function(data){
+				data :  { board_title : $('#board_title').html() , board_contents : contents, board_type : subtype ,user_number:user_number},
+				success : function(data){
 				          //0 실패 1 성공
 				              if(data == 1){
 				            	  	alert("게시글 변경 성공");
@@ -236,8 +248,14 @@
 		contents=contents.replace(/(?:\r\n|\r|\n)/g,'<br/>');
 		console.log("html 변환 : "+contents);
 
+		var user_number=0;
+		if(${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.user_number}+"" != "" ){
+			 	user_number=${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.user_number}+"";
+		}
+		console.log("user_numbe:"+user_number);
+		
 	   	 var query = { 
-	                board_title : $('#board_title').html() , board_contents : contents , board_type : subtype
+	        board_title : $('#board_title').html() , board_contents : contents , board_type : subtype , user_number : user_number
 	    };
 	   
 	   	 if($('#board_title').text() == "" || $('#board_title').text()  == " " ){
@@ -263,7 +281,9 @@
 	});
 
 
-	
+	$('#main').click(function(){
+		self.location="/";
+	});
 	
 </script>
 </html>

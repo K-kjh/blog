@@ -22,9 +22,9 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int insertComment(int board_number, String contents, int writer, int user_number) throws Exception {
+	public int insertComment(int board_number, String contents, int user_number) throws Exception {
 		// TODO Auto-generated method stub
-		return mapper.insertComment(board_number, contents, writer, user_number);
+		return mapper.insertComment(board_number, contents, user_number);
 	}
 
 	public String solve(String str) {

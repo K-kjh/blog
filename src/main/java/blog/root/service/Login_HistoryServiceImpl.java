@@ -2,8 +2,11 @@ package blog.root.service;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Service;
+
 import blog.root.mapper.Login_HistoryMapper;
 
+@Service
 public class Login_HistoryServiceImpl implements Login_HistoryService {
 
 	@Inject

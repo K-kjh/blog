@@ -8,9 +8,15 @@
 <head>
 <meta charset="UTF-8">
 <title>계정 </title>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	
 </head>
 <body>
-
+<form method="get" action="/">
+		<button id="main"type="button" class="btn btn-secondary" style="margin:7px;">main</button>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }"/>
+</form>
 <p> principal : <sec:authentication property="principal" /></p>
 <p> userDto :<sec:authentication property="principal.userdto" /> </p>
 
@@ -45,4 +51,9 @@
 	</div>
 	
 </body>
+<script>
+$('#main').click(function(){
+	self.location="/";
+});
+</script>
 </html>

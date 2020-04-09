@@ -1,6 +1,7 @@
 package blog.root.controll;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -20,23 +21,12 @@ public class CommentController {
 
 	@PostMapping("/board/{board_number}/comment")
 	@ResponseBody
-	public int commentInput(@PathVariable int board_number, String commentInput, HttpSession session) throws Exception {
-
-		int user_number = 0;
-		if (session.getAttribute("root") != null) {
-			log.info("로그있음.");
-
-			commentInput = commentmapper.solve(commentInput);
-			commentmapper.insertComment(board_number, commentInput, 1, user_number);
-
-		} else {
-			log.info("로그없음");
-
-			commentInput = commentmapper.solve(commentInput);
-			commentmapper.insertComment(board_number, commentInput, 0, user_number);
-
-		}
-
+	public int commentInput(@PathVariable int board_number, String commentInput,int user_number) throws Exception {
+		log.info(":"+user_number);
+		
+		commentInput = commentmapper.solve(commentInput);
+		commentmapper.insertComment(board_number, commentInput, user_number);
+		
 		return 1;
 	}
 

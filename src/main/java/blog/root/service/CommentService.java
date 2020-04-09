@@ -7,7 +7,7 @@ import blog.root.model.CommentDTO;
 public interface CommentService {
 	public List<CommentDTO> selectCommentList(int board_number) throws Exception;
 
-	public int insertComment(int board_number, String contents, int writer, int user_number) throws Exception;
+	public int insertComment(int board_number, String contents, int user_number) throws Exception;
 
 	public String solve(String str);
 
