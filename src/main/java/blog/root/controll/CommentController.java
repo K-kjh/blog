@@ -29,5 +29,19 @@ public class CommentController {
 		
 		return 1;
 	}
+	
+	@PostMapping("/board/{board_number}/comment/{comment_number}")
+	@ResponseBody
+	public int commentDelete(@PathVariable int board_number,@PathVariable int comment_number) {
+		try {
+			log.info("board : "+ board_number+",, comment_number :: "+comment_number);
+			commentmapper.deleteTargetComment(board_number, comment_number);
+			return 1;
+		} catch (Exception e) {
+			log.info("error---");
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
 }

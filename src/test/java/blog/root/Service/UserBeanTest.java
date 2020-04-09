@@ -67,38 +67,44 @@ public class UserBeanTest {
 	//private Login_HistoryService login;
 	
 	
-	@Test
-	public void singup() {
-		String id="kgh22";
-		String pw="akzm12";
-		String email="kgh2252225222@gmail.com";
-		String nickname="2nkgh22522252";
-		
-		try {
-				user.Singup(id, pwencoder.encode(pw), email, nickname) ;
-			//	user_auth.userauth_insert(user.getUser_number(id));
-		} catch (Exception e) {
-		}
-	}
+//	@Test
+//	public void singup() {
+//		
+//		String id="user";
+//		
+//		try {
+//			
+//			user.Singup("admin01", pwencoder.encode("admin01"), "admin01@gmail.com", "admin01Nickname") ;
+//			user_auth.userauth_insert_admin(user.getUser_number("admin01"));
+//			
+//			for(int i=0;i<5;i++) {
+//
+//				user.Singup(id+"0"+i, pwencoder.encode(id+"0"+i), id+"0"+i+"@gmail.com", id+"0"+i+"Nickname") ;
+//				user_auth.userauth_insert(user.getUser_number(id+"0"+i));
+//			}
+//			
+//		} catch (Exception e) {
+//		}
+//	}
 	
 	
 //	
-//	@Test
-//	public void login() {
-//		String id="kgh2252";
-//		String pw="akzm12";
-//		
-//		try {
-//			if(user.Login(id, pwencoder.encode(pw)) != 0) {
-//				log.info("로그인 성공");
-//				
-//			}else {
-//			}
-//		} catch (Exception e) {
-//
-//			log.info("로그인 실패");
-//		}
-//	}
+	@Test
+	public void login() {
+		String id="user01";
+		String pw="user01";
+		
+		try {
+			if(user.Login(id, pwencoder.encode(pw)) != 0) {
+				log.info("로그인 성공");
+				
+			}else {
+			}
+		} catch (Exception e) {
+
+			log.info("로그인 실패");
+		}
+	}
 //	
 //	@Test
 //	public void loginCheck() {

@@ -26,7 +26,7 @@ public class CommentBeanTest {
 	@Test
 	public void commenttest1() {
 		try {
-			List<CommentDTO> com =comment.selectCommentList(1);
+			List<CommentDTO> com =comment.selectCommentList(3);
 			log.info("::"+com.get(0).getUser_authList().get(0).getAuth());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

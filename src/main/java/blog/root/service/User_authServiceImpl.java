@@ -19,9 +19,9 @@ public class User_authServiceImpl implements User_authService{
 	}
 
 	@Override
-	public void userauth_insert_admin(int user_number) {
+	public void userauth_update_admin(int user_number) {
 		
-		mapper.userauth_insert_admin(user_number);
+		mapper.userauth_update_admin(user_number);
 	}
 	
 

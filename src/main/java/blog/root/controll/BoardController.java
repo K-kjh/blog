@@ -120,17 +120,19 @@ public class BoardController {
 
 	@DeleteMapping(value = "/board/{board_number}/delete")
 	@ResponseBody
-	public int boardDelete(@PathVariable int board_number,int user_number,HttpSession session) {
+	public int boardDelete(@PathVariable int board_number,int user_number) {
 		log.info("board_delete ::------------------" + board_number+", user_number: ---------"+user_number);
 
-		if (session.getAttribute("root") != null) {
-			try {
-				commentService.deleteAllComment(board_number);
-				return boardService.boardDelete(board_number, user_number);
-			} catch (Exception e) {
-				log.info("delete-------------------- no nono no non o");
-			}
+		try {
+			commentService.deleteAllComment(board_number);
+			
+			int retu=boardService.boardDelete(board_number, user_number);
+			log.info("1-"+retu);
+			return retu;
+		} catch (Exception e) {
+			log.info("delete-------------------- no nono no non o");
 		}
+		
 
 		return 0;
 	}

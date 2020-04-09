@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import blog.root.mapper.BoardMapper;
 import blog.root.model.BoardDTO;
 import blog.root.model.BoardVO;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -62,8 +63,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int boardDelete(int board_number, int user_number) throws Exception {
-		return boardMapper.boardDelete(board_number, user_number);
+	public int boardDelete(int board_number, int user_number) {
+		log.info("board_number : "+board_number +",,,  user_number : "+user_number);
+		int re=0;
+		try {
+			re = boardMapper.boardDelete(board_number, user_number);
+			log.info("2 - "+re);
+		} catch (Exception e) {
+			log.info("error---");
+			e.printStackTrace();
+		}
+		 return re;
 	}
 
 	public ArrayList<String> GetContentsImageSrc(String src) {

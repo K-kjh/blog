@@ -19,6 +19,7 @@ public class CustomUser extends User{
 	private String nickname;
 	private int user_number;
 	private Timestamp id_create_date;
+	private String auth;
 	
 	public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
@@ -31,6 +32,7 @@ public class CustomUser extends User{
 		this.nickname = dto.getNickname();
 		this.user_number=dto.getUser_number();
 		this.id_create_date=dto.getId_create_date();
+		this.auth = dto.getAuthList().get(0).getAuth();
 		
 	}
 

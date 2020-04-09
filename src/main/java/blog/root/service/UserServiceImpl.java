@@ -3,6 +3,7 @@ package blog.root.service;
 import javax.inject.Inject;
 
 import org.apache.ibatis.mapping.ResultMap;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import blog.root.mapper.UserMapper;
@@ -13,16 +14,19 @@ public class UserServiceImpl implements UserService {
 
 	@Inject
 	private UserMapper mapper;
-
+	
+	@Inject
+	private PasswordEncoder pwencoder;
+	
 	@Override
 	public int Singup(String id, String pw, String email, String nickname) throws Exception {
-		return mapper.Singup(id, pw, email, nickname);
+		return mapper.Singup(id, pwencoder.encode(pw), email, nickname);
 	}
 
 	@Override
 	public int Login(String id, String pw) throws Exception {
 		// TODO Auto-generated method stub
-		return mapper.Login(id, pw);
+		return mapper.Login(id,pw);
 	}
 
 	@Override

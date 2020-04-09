@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import blog.root.service.RootService;
@@ -30,14 +31,15 @@ public class AccountController {
 		return "/account";
 	}
 	
-	@PostMapping("/account/root")
+	@PutMapping("/account/root")
 	@ResponseBody
-	public int root(@PathVariable String pwd,@PathVariable int user_number) {
+	public int root( String pwd, int user_number) {
 		
 		try {
 				if(root.lootlogin(pwd) !=0) {
-					user_auth.userauth_insert_admin(user_number);
+					user_auth.userauth_update_admin(user_number);
 				}
+				return 1;
 		} catch (Exception e) {;;	}
 		
 		return 0;

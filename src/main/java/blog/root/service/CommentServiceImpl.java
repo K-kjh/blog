@@ -55,4 +55,9 @@ public class CommentServiceImpl implements CommentService {
 		mapper.deleteAllComment(board_number);
 	}
 
+	@Override
+	public void deleteTargetComment(int board_number, int comment_number) throws Exception {
+		mapper.deleteTargetComment(board_number, comment_number);
+	}
+
 }

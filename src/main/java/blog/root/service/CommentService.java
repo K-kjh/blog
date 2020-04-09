@@ -2,6 +2,7 @@ package blog.root.service;
 
 import java.util.List;
 
+
 import blog.root.model.CommentDTO;
 
 public interface CommentService {
@@ -12,4 +13,6 @@ public interface CommentService {
 	public String solve(String str);
 
 	public void deleteAllComment(int board_number) throws Exception;
+	public void deleteTargetComment( int board_number, int comment_number) throws Exception;
+
 }

@@ -14,9 +14,8 @@ import blog.root.model.BoardVO;
 
 public interface BoardMapper {
 
-	@Delete("delete from board where board_number =#{board_number} AND user_number =#{user_number}")
-	public int boardDelete(@Param("board_number") int board_number, @Param("user_number") int user_number)
-			throws Exception;
+	@Delete("delete from board where board_number =#{board_number} && user_number =#{user_number}")
+	public int boardDelete(@Param("board_number") int board_number, @Param("user_number") int user_number)throws Exception;
 	// 게시판 삭제
 
 	@Update("update board set board_contents = #{board_contents} , board_title=#{board_title} , board_type=#{board_type}"

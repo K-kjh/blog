@@ -71,12 +71,15 @@
 		<button id="main"type="button" class="btn btn-secondary" style="margin:7px;">main</button>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }"/>
 </form>
+<sec:authorize access="isAnonymous()">
+	<a href="/login"><button id="main"type="button" class="btn btn-secondary" style="margin:7px;">login</button></a>
+</sec:authorize>
 <br/>
 <%try{ %>
 
 	<% BoardDTO board = (BoardDTO)request.getAttribute("boardDTO"); %>
 	<%List<CommentDTO> commentDTOs = (List<CommentDTO>) request.getAttribute("commentDTO"); %>
-		
+	<sec:authentication property="principal" var="pinfo" />
 	
 	<div style="width:1700px;height:auto; ">
 		<div style="width:190px;float:left; margin-right:10px;margin-top:100px;">
@@ -96,10 +99,12 @@
 				  
 			</div>
 			<!-- 삭제 수정 버튼 -->
-			<sec:authentication property="principal" var="pinfo" />
+		
 			<sec:authorize access="isAuthenticated()">
-			<c:set var="number" value="<%=board.getUser_number()%>" />
-			<c:if test="${pinfo.user_number eq number }" >
+			<c:set var="board_user_number" value="<%=board.getUser_number()%>" />
+		 	<c:set var="board_board_number" value="<%=board.getBoard_number()%>" />
+			
+			<c:if test="${pinfo.user_number eq board_user_number }" >
 				<div id="DeUpButton" value="<%=board.getBoard_number()%>"class="border" style="width:1500px;height:50px;padding-top:5px;padding-bottom:5px;background-color:rgb(247,247,247);">
 						<div style="float:left;">
 							<button id="update" type="button" class="btn btn-info" style="margin-left:1350px;">수정</button>
@@ -114,9 +119,9 @@
 		</div>
 		
 	</div>
-	
+
 	<!-- 댓글 컬럼 -->
-	<div style="width:1100px;height:auto;float:left;margin-top:10px;margin-left:200px;padding-bottom:40px;background-color:rgb(201,235,255);border-radius:0.5em;border:2px solid #64a2ff;">
+<div style="width:1100px;height:auto;float:left;margin-top:10px;margin-left:200px;padding-bottom:40px;background-color:rgb(201,235,255);border-radius:0.5em;border:2px solid #64a2ff;">
 		<div style="width:1000px;height:80px;margin-left:45px;margin-top:10px;">
 		 <sec:authorize access="isAuthenticated()" >
 		 	<textarea id="commentInput" rows="3" style="width:834px;height:80px;float:left;"></textarea>
@@ -126,41 +131,68 @@
 			
 		</div>
 		
-		
 		<%for(CommentDTO comment : commentDTOs){ %>
 			
-			<%if(comment.getUser_authList().get(0).getAuth().equals("ROLE_ADMIN") || comment.getUser_number() ==  comment.getBoard_number()){ // 관리자 댓글,작성자   %>
-				<!-- 관리자 댓글,작성자  --><p>
+		 <c:set var="comment_user_number" value="<%=comment.getUser_number()%>" />
+		 <c:set var="comment_board_number" value="<%=comment.getBoard_number()%>" />
+		 
+		 <c:set var="comment_user_auth_auth" value="<%=comment.getUser_authList().get(0).getAuth() %>"/>
+		 
+		 <c:choose>
+		 <c:when test="${(comment_user_number eq board_user_number  &&  comment_board_number eq board_board_number) || comment_user_auth_auth eq 'ROLE_ADMIN' }">
+		 			<!-- 관리자 댓글,작성자  --><p>
 				<div style="width:1100px;float:left;"><p style="height:8px;">
 				<div><pre class="triangle-isosceles right" style="display:table;float:right;	margin-right:80px;margin-left:171px;"
 					><%=comment.getContents() %></pre></div>
-					
 				</div>
-				<div style="float:right;margin-right:80px;height:0px;"><small><%=comment.getComment_date()%><p style="margin-bottom:-3px;">
-				<%
-					if(comment.getUser_authList().get(0).getAuth().equals("ROLE_ADMIN")){
-					%><div style="float:right">관리자<%if(comment.getUser_number() ==  comment.getBoard_number()){
-					%>& 닉네임 : <%=comment.getUserList().get(0).getNickname()%></div> <%}
-					}else{%>닉네임 : <%=comment.getUserList().get(0).getNickname()%><%
-					}
-				%></small></div>
-			<%}else{ // 회원 댓글 %>
-				<!-- 회원 댓글  -->
-				<div style="width:1100px;"><p style="height:8px;">
-					<div><pre class="triangle-isosceles left" style="display:inline-grid;margin-right:80px;"
-					><%=comment.getContents() %></pre></div>
+				
+				<div  style="float:right;margin-right:80px;height:0px;">
+			
+				<small><%=comment.getComment_date()%><p style="margin-bottom:-3px;">
+				
+					<div style="float:right" >
+					<c:choose>
+					<c:when test="${comment_user_auth_auth eq 'ROLE_ADMIN' }" >
+						관리자 :
+					</c:when>
+					<c:otherwise>
+						작성자 :
+						 </c:otherwise>
+					</c:choose>
+				
+					<%= comment.getUserList().get(0).getNickname()%>
+					</div> 
+				</small>
+				<sec:authorize access="isAuthenticated()">
+		 			<c:if test="${comment_user_number eq pinfo.user_number ||pinfo.auth eq 'ROLE_ADMIN' }">
+		 			<a style="font-size:16px;" href="#" id="comment_Target" value="<%=comment.getComment_number()%>"> x</a> 
+		 			</c:if>
+				</sec:authorize>
 				</div>
-				<div style="float:left;margin-left:50px;width:auto;height:0px;"><small><%=comment.getComment_date()%></small></div>
-				<p><div style="float:left;margin-left:50px;">닉네임 : <%=comment.getUserList().get(0).getNickname()%></div>
-			<%} %>
-		<%} %>
-	
-	
+		 </c:when>
 		
-		
-		
-	</div>
-	<div style="width:100%;height:100px;float:left;"></div>
+		 <c:otherwise>
+		 			<!-- 회원 댓글  -->
+					<div style="width:1100px;"><p style="height:8px;">
+						<div><pre class="triangle-isosceles left" style="display:inline-grid;margin-right:80px;"
+						><%=comment.getContents() %></pre></div>
+					</div>
+					<div style="float:left;margin-left:50px;width:auto;height:0px;"><small><%=comment.getComment_date()%></small></div>
+					<p>
+					<div style="float:left;margin-left:50px;">
+						닉네임 : <%=comment.getUserList().get(0).getNickname()%>
+				<sec:authorize access="isAuthenticated()">
+		 			<c:if test="${comment_user_number eq pinfo.user_number ||pinfo.auth eq 'ROLE_ADMIN'}">
+		 			<a style="font-size:16px;" href="#"id="comment_Target" data-id="<%=comment.getComment_number()%>" > x</a> 
+		 			</c:if>
+				</sec:authorize>
+					</div>	
+		 </c:otherwise>
+		 </c:choose>
+		<%}%>
+
+</div>
+<div style="width:100%;height:100px;float:left;"></div>
 <%}catch(Exception e){ %>
  	<h1> 사이트 접속 오류로 인하여 접근을 할수 없습니다.</h1>
 <%} %>
@@ -171,6 +203,23 @@
 	var title= $('#title').html();
 	var board_number="<%=request.getAttribute("board_number")%>";
 
+	$(document).on("click","#comment_Target",function(){
+		var comment_number =$(this).data("id");
+		console.log("comment_number :: "+comment_number);
+		
+		 $.ajax({
+				url :"/board/"+board_number+"/comment/"+comment_number,
+				type: "post",
+				success : function(data){
+					if(data  == 1){
+						console.log(" 댓 삭 ");
+						location.reload();
+					}else{
+						console.log(" 댓 삭 실패");
+					}
+				}
+			}); //ajax -end
+	});
 	
 	$('#update').click(function(){
 		console.log(" title : "+title+", "+$('#title').val() +" ::: "+$('#title').html() +" number : "+board_number);
@@ -192,7 +241,7 @@
 			success : function(data){
 				if(data  == 1){
 					console.log(" 게시물 삭제 성공 ");
-					location.href="/";
+				   location.href="/";
 				}else{
 					console.log(" 게시물 삭제 실패");
 				}
@@ -204,13 +253,16 @@
 	$('#commentInputButton').click(function(){
 		
 			console.log(" 값은 s? :"+$('#commentInput').val());
-		 
+			if($('#commentInput').val() == "" || $('#commentInput').val() == " "|| $('#commentInput').val() == null){
+				alter(" 내용을 입력해 ");
+				return 1;
+			}
 		 	var user_number=0;
 			if(${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.user_number}+"" != "" ){
 				 	user_number=${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.user_number}+"";
 			}
 			if(user_number != 0 ){
-
+			
 				 $.ajax({
 						url :"/board/"+$('#commentInputButton').val()+"/comment",
 						type: "post",

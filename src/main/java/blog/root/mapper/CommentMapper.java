@@ -30,4 +30,7 @@ public interface CommentMapper {
 	public void deleteAllComment(@Param("board_number") int board_number) throws Exception;
 	// 특정 게시글 댓글 전체 삭제
 
+	@Delete("delete from comment where board_number =#{board_number} and comment_number =#{comment_number}")
+	public void deleteTargetComment(@Param("board_number") int board_number,@Param("comment_number") int comment_number) throws Exception;
+
 }

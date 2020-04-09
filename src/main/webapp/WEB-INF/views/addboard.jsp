@@ -55,7 +55,10 @@
 <form method="get" action="/">
 		<button id="main"type="button" class="btn btn-secondary" style="margin:7px;">main</button>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }"/>
-	</form>
+</form>
+<%-- <sec:authorize access="isAnonymous()">
+	<a href="/login"><button id="main"type="button" class="btn btn-secondary" style="margin:7px;">login</button></a>
+</sec:authorize> --%>
 <div style="width:1700px;height:800px;">
 
 	<!--사이드 바  -->
@@ -186,13 +189,11 @@
   	});
   	
   	function image_add(formData){
+  		console.log("실행 ")
 		 $.ajax({
 			url:'/uploads',
 			processData: false,
 			contentType: false,
-			beforeSend: function(xhr){
-				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
-			},
 			data: formData,
 			type: 'POST',
 			success: function(result){
