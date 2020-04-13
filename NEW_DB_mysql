@@ -1,11 +1,11 @@
 drop table root;
 drop table subject;
 drop table user;
+drop table user_auth;
 drop table withdrawal;
 drop table login_history;
 drop table board;
 drop table comment;
-
 
 CREATE TABLE root (
     pwd VARCHAR(65) NOT NULL
@@ -15,15 +15,20 @@ CREATE TABLE subject (
     sub_number INT(16) NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
 
-
-
 CREATE TABLE user (
     user_number INT(16) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     id VARCHAR(38) NOT NULL,
-    pw VARCHAR(50) NOT NULL,
+    pw VARCHAR(100) NOT NULL,
     email VARCHAR(80) NOT NULL,
     id_create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    nickname VARCHAR(30) NOT NULL
+    nickname VARCHAR(30) NOT NULL, 
+    enabled char(1) default '1'
+);
+
+create table user_auth(
+	user_number int(16) not null,
+    auth varchar(50) not null,
+    constraint user_auth foreign key(user_number) references user(user_number)
 );
 
 CREATE TABLE withdrawal (
@@ -60,7 +65,6 @@ CREATE TABLE comment (
     board_number INT(16) NOT NULL,
     comment_number INT(16) not null auto_increment PRIMARY KEY ,
     contents VARCHAR(500) NOT NULL,
-    writer BOOLEAN NOT NULL,
     comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     user_number INT(16) NOT NULL,
     
