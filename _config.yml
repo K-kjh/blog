@@ -1,9 +1,21 @@
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163666847-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+google_analytics: 'UA-163666847-1'
+permalink: /:categories/:title/
 
-  gtag('config', 'UA-163666847-1');
-</script>
+include:
+  - _pages
+
+# Tags
+tag_page_dir: tag
+tag_page_layout: tag-page
+tag_permalink_style: pretty
+
+sass:
+  sass_dir: _sass
+  style: compressed
+
+
+# Exclude from processing.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
