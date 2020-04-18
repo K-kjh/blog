@@ -1,4 +1,6 @@
-# blog                    
+# blog         
+http://www.kangblog.kr/
+
 개발 환경 
 
 리눅수(우분투) 사용,  spring framework 5(maven) ,  서버 : tomcat   ,  db :mysql    ,  사용언어 : java     
