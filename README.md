@@ -1,5 +1,5 @@
 # blog         
-http://www.kangblog.kr/
+http://www.kangblog.kr/     ( 오픈시간 평일 낯 12시 ~ 6,7시 까지  개봉 )
 
 개발 환경 
 
